@@ -31,15 +31,16 @@
   .hdr-sub { font-size: 0.7rem; color: var(--g3); letter-spacing: 2px; font-weight: 300; margin-top: 2px; }
 
   /* BODY */
-  .app-body { background: var(--cream); padding: 18px 14px 80px; }
+  .app-body { background: var(--cream); padding: 18px 14px 110px; }
 
   /* BOTTOM NAV */
   .bottom-nav {
     position: fixed; bottom: 0; left: 0; right: 0;
-    background: var(--g1); display: grid; grid-template-columns: repeat(4, 1fr);
+    background: var(--g1); display: grid; grid-template-columns: repeat(5, 1fr);
     padding: 8px 6px 12px; gap: 4px; z-index: 100;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
   }
+  .bnav-row1, .bnav-row2 { display: contents; }
   .bnav-btn {
     display: flex; flex-direction: column; align-items: center; gap: 2px;
     background: none; border: none; cursor: pointer; padding: 6px 2px;
@@ -346,21 +347,25 @@
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
-  <button class="bnav-btn active" onclick="showSection('chip',this)" id="nav-chip">
-    <span class="ico">🏌️</span><span class="lbl">Chip</span>
-  </button>
-  <button class="bnav-btn" onclick="showSection('pitch',this)" id="nav-pitch">
-    <span class="ico">🏹</span><span class="lbl">Pitch</span>
-  </button>
-  <button class="bnav-btn" onclick="showSection('putt',this)" id="nav-putt">
-    <span class="ico">⛳</span><span class="lbl">Putt</span>
-  </button>
-  <button class="bnav-btn" onclick="showSection('stats',this)" id="nav-stats">
-    <span class="ico">📈</span><span class="lbl">Stats</span>
-  </button>
-  <button class="bnav-btn" onclick="showSection('hist',this)" id="nav-hist">
-    <span class="ico">🗓</span><span class="lbl">History</span>
-  </button>
+  <div class="bnav-row1">
+    <button class="bnav-btn active" onclick="showSection('chip',this)" id="nav-chip">
+      <span class="ico">🏌️</span><span class="lbl">Chip</span>
+    </button>
+    <button class="bnav-btn" onclick="showSection('pitch',this)" id="nav-pitch">
+      <span class="ico">🏹</span><span class="lbl">Pitch</span>
+    </button>
+    <button class="bnav-btn" onclick="showSection('putt',this)" id="nav-putt">
+      <span class="ico">⛳</span><span class="lbl">Putt</span>
+    </button>
+    <button class="bnav-btn" onclick="showSection('stats',this)" id="nav-stats">
+      <span class="ico">📈</span><span class="lbl">Stats</span>
+    </button>
+  </div>
+  <div class="bnav-row2">
+    <button class="bnav-btn hist-btn" onclick="showSection('hist',this)" id="nav-hist">
+      <span class="ico">🗓</span><span class="lbl">History</span>
+    </button>
+  </div>
 </div>
 
 <script>

@@ -11,6 +11,7 @@
     --gold:#d4a017;--gold2:#f0c040;
     --pitch:#7b4f12;--pitch2:#c17f3a;
     --putt:#1a3a5c;--putt2:#2e6da4;
+    --iron:#37474f;--iron2:#607d8b;
     --cream:#fdfaf4;--sand:#f5e6c8;--text:#1a2e22;--muted:#6b8f71;
     --white:#fff;--red:#c0392b;--card-shadow:0 3px 12px rgba(0,0,0,0.08);
     --pass:#22c55e;--fail:#ef4444;
@@ -28,7 +29,7 @@
   .app-body{background:var(--cream);padding:16px 14px 80px;}
 
   /* BOTTOM NAV */
-  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--g1);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 6px 12px;gap:4px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.3);}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--g1);display:grid;grid-template-columns:repeat(6,1fr);padding:8px 4px 12px;gap:2px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.3);}
   .bnav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:6px 2px;border-radius:10px;transition:background 0.15s;}
   .bnav-btn .ico{font-size:1.25rem;}
   .bnav-btn .lbl{font-size:0.58rem;font-weight:700;letter-spacing:0.5px;color:#5a8f6a;text-transform:uppercase;}
@@ -46,6 +47,7 @@
   .pass-banner.chip-banner{background:#e8f5e2;color:var(--g2);}
   .pass-banner.pitch-banner{background:#fdf0e0;color:var(--pitch);}
   .pass-banner.putt-banner{background:#e0edf8;color:var(--putt2);}
+  .pass-banner.iron-banner{background:#e7edf0;color:var(--iron);}
   .pass-banner .banner-left{display:flex;flex-direction:column;gap:2px;}
   .pass-banner .banner-title{font-size:0.72rem;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;}
   .pass-banner .banner-sub{font-size:0.68rem;font-weight:600;opacity:0.8;}
@@ -72,6 +74,7 @@
   .pass-pill.show{display:inline-block;}
   .pass-pill.pass{background:#dcfce7;color:#15803d;}
   .pass-pill.fail{background:#fee2e2;color:#b91c1c;}
+  .pass-pill.skip{background:#eef0f1;color:#8a9aa3;}
 
   /* SCORE BUTTONS */
   .score-row{display:flex;gap:5px;flex-wrap:wrap;}
@@ -80,6 +83,7 @@
   .s-btn.active.chip-theme{background:var(--g2);border-color:var(--g2);color:white;box-shadow:0 3px 10px rgba(45,106,79,0.4);}
   .s-btn.active.pitch-theme{background:var(--pitch);border-color:var(--pitch);color:white;box-shadow:0 3px 10px rgba(123,79,18,0.4);}
   .s-btn.active.putt-theme{background:var(--putt2);border-color:var(--putt2);color:white;box-shadow:0 3px 10px rgba(46,109,164,0.4);}
+  .s-btn.active.iron-theme{background:var(--iron);border-color:var(--iron);color:white;box-shadow:0 3px 10px rgba(55,71,79,0.45);}
 
   /* PUTT CARD */
   .putt-card{background:var(--white);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--card-shadow);}
@@ -97,6 +101,7 @@
   /* SECTION BADGE */
   .sec-chip{display:inline-flex;align-items:center;gap:6px;background:var(--g2);color:white;border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:700;letter-spacing:0.5px;margin-bottom:12px;}
   .sec-chip.pitch{background:var(--pitch);}
+  .sec-chip.iron{background:var(--iron);}
 
   /* SUBMIT */
   .submit-btn{width:100%;border:none;border-radius:14px;padding:15px;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;cursor:pointer;margin-top:4px;transition:opacity 0.2s,transform 0.1s;box-shadow:0 4px 16px rgba(0,0,0,0.2);}
@@ -104,13 +109,13 @@
   .submit-btn.chip-submit{background:linear-gradient(135deg,var(--g3),var(--g2));color:white;}
   .submit-btn.pitch-submit{background:linear-gradient(135deg,var(--pitch2),var(--pitch));color:white;}
   .submit-btn.putt-submit{background:linear-gradient(135deg,var(--putt2),var(--putt));color:white;}
+  .submit-btn.iron-submit{background:linear-gradient(135deg,var(--iron2),var(--iron));color:white;}
 
   .toast{text-align:center;font-size:0.8rem;font-weight:700;min-height:20px;margin-top:10px;}
   .toast.ok{color:var(--g2);}.toast.err{color:var(--red);}
 
   /* PROGRESSION SETTINGS */
-  .prog-card{background:var(--dark,var(--g1));border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--card-shadow);}
-  .prog-card{background:#1b4332;color:var(--cream);}
+  .prog-card{background:#1b4332;color:var(--cream);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--card-shadow);}
   .prog-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;color:var(--gold2);margin-bottom:4px;}
   .prog-sub{font-size:0.7rem;color:var(--g4);margin-bottom:14px;line-height:1.4;}
   .prog-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.08);}
@@ -128,8 +133,15 @@
   .level-name.beginner{color:#86efac;}
   .level-name.moderate{color:var(--gold2);}
   .level-name.competitive{color:#f87171;}
+  .level-hint{font-size:0.62rem;color:var(--g4);text-align:right;margin-top:6px;line-height:1.3;}
   .prog-save-btn{width:100%;background:var(--gold);color:var(--g1);border:none;border-radius:10px;padding:12px;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;cursor:pointer;margin-top:14px;transition:opacity 0.2s;}
   .prog-save-btn:hover{opacity:0.85;}
+
+  /* BACKUP BUTTONS */
+  .backup-btn{width:100%;border:none;border-radius:10px;padding:12px;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:2px;cursor:pointer;margin-top:10px;transition:opacity 0.2s;}
+  .backup-btn:active{opacity:0.85;}
+  .backup-btn.exp{background:var(--g3);color:var(--g1);}
+  .backup-btn.imp{background:rgba(255,255,255,0.1);color:var(--cream);border:1.5px solid rgba(255,255,255,0.25);}
 
   /* STATS */
   .stats-section-title{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:2px;color:var(--g1);margin:14px 0 8px;display:flex;align-items:center;gap:8px;}
@@ -139,10 +151,11 @@
   .stat-box.chip-box{border-top:3px solid var(--g3);}
   .stat-box.pitch-box{border-top:3px solid var(--pitch2);}
   .stat-box.putt-box{border-top:3px solid var(--putt2);}
+  .stat-box.iron-box{border-top:3px solid var(--iron2);}
   .stat-val{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;line-height:1;}
-  .stat-val.chip-val{color:var(--g1);}.stat-val.pitch-val{color:var(--pitch);}.stat-val.putt-val{color:var(--putt);}
+  .stat-val.chip-val{color:var(--g1);}.stat-val.pitch-val{color:var(--pitch);}.stat-val.putt-val{color:var(--putt);}.stat-val.iron-val{color:var(--iron);}
   .stat-lbl{font-size:0.56rem;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-top:3px;font-weight:700;}
-  .stat-target{font-size:0.58rem;color:#aaa;margin-top:2px;}
+  .stat-target{font-size:0.58rem;color:#c79a2e;margin-top:3px;font-weight:700;}
 
   /* CHART */
   .chart-card{background:var(--white);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--card-shadow);}
@@ -152,6 +165,7 @@
   .c-tab.active-chip{background:var(--g2);border-color:var(--g2);color:white;}
   .c-tab.active-pitch{background:var(--pitch);border-color:var(--pitch);color:white;}
   .c-tab.active-putt{background:var(--putt2);border-color:var(--putt2);color:white;}
+  .c-tab.active-iron{background:var(--iron);border-color:var(--iron);color:white;}
   .chart-svg-wrap{height:130px;}
   svg.mchart{width:100%;height:100%;overflow:visible;}
 
@@ -167,10 +181,11 @@
   .hist-section-lbl.chip{background:#e8f5e2;color:var(--g2);}
   .hist-section-lbl.pitch{background:#fdf0e0;color:var(--pitch);}
   .hist-section-lbl.putt{background:#e0edf8;color:var(--putt2);}
+  .hist-section-lbl.iron{background:#e7edf0;color:var(--iron);}
   .hist-scores-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}
   .hist-score-cell{background:#f9f9f9;border-radius:8px;padding:6px;text-align:center;}
   .hsc-val{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--g1);line-height:1;}
-  .hsc-val.pv{color:var(--pitch);}.hsc-val.putv{color:var(--putt2);}
+  .hsc-val.pv{color:var(--pitch);}.hsc-val.putv{color:var(--putt2);}.hsc-val.irv{color:var(--iron);}
   .hsc-lbl{font-size:0.56rem;color:var(--muted);font-weight:700;}
   .hsc-status{font-size:0.58rem;font-weight:800;margin-top:2px;}
   .hsc-status.p{color:#15803d;}.hsc-status.f{color:#b91c1c;}
@@ -197,34 +212,39 @@
         <div class="banner-title">🎯 Pass Mark</div>
         <div class="banner-sub" id="chip-banner-sub">Hit 8/20 within putter's length to pass each distance</div>
       </div>
-      <div class="level-badge" id="chip-level-badge">BEGINNER</div>
+      <div class="level-badge" id="chip-level-badge">NO DATA</div>
     </div>
     <div class="date-row">
       <label>Date</label><input type="date" id="chip-date">
     </div>
     <div class="dist-group">
       <div class="dist-group-header">
-        <div><div class="dist-label chip-color">2 Feet</div><div class="dist-sub">From putting green edge</div></div>
+        <div><div class="dist-label chip-color">5 Yards</div><div class="dist-sub">Short chip · 20 balls</div></div>
         <div class="dist-right"><div class="dist-max">/ 20</div><div class="pass-pill" id="pill-chip2"></div></div>
       </div>
       <div class="score-row" id="sb-chip2"></div>
     </div>
     <div class="dist-group">
       <div class="dist-group-header">
-        <div><div class="dist-label chip-color">5 Feet</div><div class="dist-sub">From putting green edge</div></div>
+        <div><div class="dist-label chip-color">10 Yards</div><div class="dist-sub">Mid chip · 20 balls</div></div>
         <div class="dist-right"><div class="dist-max">/ 20</div><div class="pass-pill" id="pill-chip5"></div></div>
       </div>
       <div class="score-row" id="sb-chip5"></div>
     </div>
     <div class="dist-group">
       <div class="dist-group-header">
-        <div><div class="dist-label chip-color">10 Feet</div><div class="dist-sub">From putting green edge</div></div>
+        <div><div class="dist-label chip-color">15 Yards</div><div class="dist-sub">Long chip · 20 balls</div></div>
         <div class="dist-right"><div class="dist-max">/ 20</div><div class="pass-pill" id="pill-chip10"></div></div>
       </div>
       <div class="score-row" id="sb-chip10"></div>
     </div>
     <button class="submit-btn chip-submit" onclick="logChip()">+ LOG CHIPPING SESSION</button>
     <div class="toast" id="chip-toast"></div>
+    <div class="chart-card" style="margin-top:14px">
+      <div class="chart-title">📈 Your Progress</div>
+      <div class="chart-tabs" id="chartTabRow-chip"></div>
+      <div class="chart-svg-wrap"><svg class="mchart" id="chartSvg-chip" viewBox="0 0 300 120" preserveAspectRatio="none"></svg></div>
+    </div>
   </div>
 
   <!-- ══ PITCHING ══ -->
@@ -235,7 +255,7 @@
         <div class="banner-title">🎯 Pass Mark</div>
         <div class="banner-sub" id="pitch-banner-sub">Hit 8/20 within flagstick length to pass</div>
       </div>
-      <div class="level-badge" id="pitch-level-badge">BEGINNER</div>
+      <div class="level-badge" id="pitch-level-badge">NO DATA</div>
     </div>
     <div class="date-row">
       <label>Date</label><input type="date" id="pitch-date">
@@ -256,6 +276,11 @@
     </div>
     <button class="submit-btn pitch-submit" onclick="logPitch()">+ LOG PITCHING SESSION</button>
     <div class="toast" id="pitch-toast"></div>
+    <div class="chart-card" style="margin-top:14px">
+      <div class="chart-title">📈 Your Progress</div>
+      <div class="chart-tabs" id="chartTabRow-pitch"></div>
+      <div class="chart-svg-wrap"><svg class="mchart" id="chartSvg-pitch" viewBox="0 0 300 120" preserveAspectRatio="none"></svg></div>
+    </div>
   </div>
 
   <!-- ══ PUTTING ══ -->
@@ -264,45 +289,74 @@
     <div class="pass-banner putt-banner">
       <div class="banner-left">
         <div class="banner-title">🎯 Pass Mark</div>
-        <div class="banner-sub" id="putt-banner-sub">Make 3/5 on each putting drill to pass</div>
+        <div class="banner-sub" id="putt-banner-sub">Make 6/10 on each putting drill to pass</div>
       </div>
-      <div class="level-badge" id="putt-level-badge">BEGINNER</div>
+      <div class="level-badge" id="putt-level-badge">NO DATA</div>
     </div>
     <div class="date-row">
       <label>Date</label><input type="date" id="putt-date">
     </div>
     <div class="putt-card">
       <div class="putt-card-header">
-        <div><div class="putt-name">🎯 Short Putts</div><div class="putt-desc">3-footers made (out of 5)</div></div>
-        <div class="putt-right"><div class="putt-max">/ 5</div><div class="pass-pill" id="pill-pshort"></div></div>
+        <div><div class="putt-name">🎯 Short Putts</div><div class="putt-desc">1-yard putts made (out of 10)</div></div>
+        <div class="putt-right"><div class="putt-max">/ 10</div><div class="pass-pill" id="pill-pshort"></div></div>
       </div>
       <div class="score-row" id="sb-putt-short"></div>
     </div>
     <div class="putt-card">
       <div class="putt-card-header">
-        <div><div class="putt-name">📏 Lag Putts</div><div class="putt-desc">20–30ft within 2 feet (out of 5)</div></div>
-        <div class="putt-right"><div class="putt-max">/ 5</div><div class="pass-pill" id="pill-plag"></div></div>
+        <div><div class="putt-name">📏 Lag Putts</div><div class="putt-desc">7–10 yd, within a putter's length (out of 10)</div></div>
+        <div class="putt-right"><div class="putt-max">/ 10</div><div class="pass-pill" id="pill-plag"></div></div>
       </div>
       <div class="score-row" id="sb-putt-lag"></div>
     </div>
     <div class="putt-card">
       <div class="putt-card-header">
-        <div><div class="putt-name">⬆️ Up &amp; Downs</div><div class="putt-desc">Chip + putt out (out of 5)</div></div>
-        <div class="putt-right"><div class="putt-max">/ 5</div><div class="pass-pill" id="pill-updown"></div></div>
+        <div><div class="putt-name">⬆️ Up &amp; Downs</div><div class="putt-desc">Chip + putt out (out of 10)</div></div>
+        <div class="putt-right"><div class="putt-max">/ 10</div><div class="pass-pill" id="pill-updown"></div></div>
       </div>
       <div class="score-row" id="sb-updown"></div>
     </div>
     <button class="submit-btn putt-submit" onclick="logPutt()">+ LOG PUTTING SESSION</button>
     <div class="toast" id="putt-toast"></div>
+    <div class="chart-card" style="margin-top:14px">
+      <div class="chart-title">📈 Your Progress</div>
+      <div class="chart-tabs" id="chartTabRow-putt"></div>
+      <div class="chart-svg-wrap"><svg class="mchart" id="chartSvg-putt" viewBox="0 0 300 120" preserveAspectRatio="none"></svg></div>
+    </div>
+  </div>
+
+  <!-- ══ IRONS & WEDGES ══ -->
+  <div class="section" id="sec-irons">
+    <div class="sec-chip iron">🎯 Irons &amp; Wedges — hit your target</div>
+    <div class="pass-banner iron-banner">
+      <div class="banner-left">
+        <div class="banner-title">🎯 Pass Mark</div>
+        <div class="banner-sub" id="iron-banner-sub">Hit your target 3 times in a row with each club</div>
+      </div>
+      <div class="level-badge" id="iron-level-badge">NO DATA</div>
+    </div>
+    <div class="date-row">
+      <label>Date</label><input type="date" id="iron-date">
+    </div>
+    <div style="font-size:0.68rem;color:var(--muted);font-weight:600;margin:-2px 4px 12px;line-height:1.4;">Log your best streak — most consecutive on-target shots — for each club. Tap <b>0</b> for any club you don't carry (like a wedge you don't own) and it'll be left out of the session.</div>
+    <div id="iron-cards"></div>
+    <button class="submit-btn iron-submit" onclick="logIrons()">+ LOG IRONS SESSION</button>
+    <div class="toast" id="iron-toast"></div>
+    <div class="chart-card" style="margin-top:14px">
+      <div class="chart-title">📈 Your Progress</div>
+      <div class="chart-tabs" id="chartTabRow-irons"></div>
+      <div class="chart-svg-wrap"><svg class="mchart" id="chartSvg-irons" viewBox="0 0 300 120" preserveAspectRatio="none"></svg></div>
+    </div>
   </div>
 
   <!-- ══ STATS ══ -->
   <div class="section" id="sec-stats">
     <div class="stats-section-title">🏌️ Chipping</div>
     <div class="stats-grid">
-      <div class="stat-box chip-box"><div class="stat-val chip-val" id="st-chip2">—</div><div class="stat-lbl">Best 2ft</div><div class="stat-target" id="tgt-chip2"></div></div>
-      <div class="stat-box chip-box"><div class="stat-val chip-val" id="st-chip5">—</div><div class="stat-lbl">Best 5ft</div><div class="stat-target" id="tgt-chip5"></div></div>
-      <div class="stat-box chip-box"><div class="stat-val chip-val" id="st-chip10">—</div><div class="stat-lbl">Best 10ft</div><div class="stat-target" id="tgt-chip10"></div></div>
+      <div class="stat-box chip-box"><div class="stat-val chip-val" id="st-chip2">—</div><div class="stat-lbl">Best 5yd</div><div class="stat-target" id="tgt-chip2"></div></div>
+      <div class="stat-box chip-box"><div class="stat-val chip-val" id="st-chip5">—</div><div class="stat-lbl">Best 10yd</div><div class="stat-target" id="tgt-chip5"></div></div>
+      <div class="stat-box chip-box"><div class="stat-val chip-val" id="st-chip10">—</div><div class="stat-lbl">Best 15yd</div><div class="stat-target" id="tgt-chip10"></div></div>
     </div>
     <div class="stats-section-title">🏹 Pitching</div>
     <div class="stats-grid">
@@ -315,6 +369,12 @@
       <div class="stat-box putt-box"><div class="stat-val putt-val" id="st-pshort">—</div><div class="stat-lbl">Best Short</div><div class="stat-target" id="tgt-pshort"></div></div>
       <div class="stat-box putt-box"><div class="stat-val putt-val" id="st-plag">—</div><div class="stat-lbl">Best Lag</div><div class="stat-target" id="tgt-plag"></div></div>
       <div class="stat-box putt-box"><div class="stat-val putt-val" id="st-updown">—</div><div class="stat-lbl">Best U&amp;D</div><div class="stat-target" id="tgt-updown"></div></div>
+    </div>
+    <div class="stats-section-title">🎯 Irons &amp; Wedges</div>
+    <div class="stats-grid">
+      <div class="stat-box iron-box"><div class="stat-val iron-val" id="st-iron-best">—</div><div class="stat-lbl">Best Streak</div></div>
+      <div class="stat-box iron-box"><div class="stat-val iron-val" id="st-iron-dialed">0</div><div class="stat-lbl">Clubs Dialed</div></div>
+      <div class="stat-box iron-box"><div class="stat-val iron-val" id="st-iron-sess">0</div><div class="stat-lbl">Sessions</div></div>
     </div>
 
     <!-- Progression Settings -->
@@ -339,20 +399,39 @@
         </div>
       </div>
       <div class="prog-row">
-        <div class="prog-row-left"><div class="prog-label">⛳ Putting Pass Mark</div><div class="prog-desc">Out of 5 shots</div></div>
+        <div class="prog-row-left"><div class="prog-label">⛳ Putting Pass Mark</div><div class="prog-desc">Out of 10 shots</div></div>
         <div class="prog-controls">
-          <button class="prog-btn" onclick="adjustMark('putt5',-1)">−</button>
-          <div class="prog-val" id="pv-putt5">3/5</div>
-          <button class="prog-btn" onclick="adjustMark('putt5',1)">+</button>
+          <button class="prog-btn" onclick="adjustMark('putt10',-1)">−</button>
+          <div class="prog-val" id="pv-putt10">6/10</div>
+          <button class="prog-btn" onclick="adjustMark('putt10',1)">+</button>
+        </div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-row-left"><div class="prog-label">🎯 Irons Target</div><div class="prog-desc">Shots in a row on target</div></div>
+        <div class="prog-controls">
+          <button class="prog-btn" onclick="adjustMark('iron',-1)">−</button>
+          <div class="prog-val" id="pv-iron">3</div>
+          <button class="prog-btn" onclick="adjustMark('iron',1)">+</button>
         </div>
       </div>
 
       <div class="level-row">
         <div class="level-label">Current Level</div>
-        <div class="level-name" id="overall-level">Beginner</div>
+        <div class="level-name" id="overall-level">No data</div>
       </div>
+      <div class="level-hint">Based on your last 5 sessions in each area</div>
       <button class="prog-save-btn" onclick="saveMarks()">✓ SAVE TARGETS</button>
       <div class="toast" id="prog-toast" style="color:var(--gold2)"></div>
+    </div>
+
+    <!-- Backup & Restore -->
+    <div class="prog-card">
+      <div class="prog-title">💾 Backup &amp; Restore</div>
+      <div class="prog-sub">Your scores live only on this device. Export saves everything to a file — do this before switching phones or clearing your browser. Import loads a backup back in.</div>
+      <button class="backup-btn exp" onclick="exportData()">⬇ EXPORT DATA</button>
+      <button class="backup-btn imp" onclick="document.getElementById('importFile').click()">⬆ IMPORT DATA</button>
+      <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="importData(event)">
+      <div class="toast" id="backup-toast" style="color:var(--gold2)"></div>
     </div>
 
     <!-- Chart -->
@@ -377,42 +456,67 @@
   <button class="bnav-btn active" onclick="showSection('chip',this)"><span class="ico">🏌️</span><span class="lbl">Chip</span></button>
   <button class="bnav-btn" onclick="showSection('pitch',this)"><span class="ico">🏹</span><span class="lbl">Pitch</span></button>
   <button class="bnav-btn" onclick="showSection('putt',this)"><span class="ico">⛳</span><span class="lbl">Putt</span></button>
+  <button class="bnav-btn" onclick="showSection('irons',this)"><span class="ico">🎯</span><span class="lbl">Irons</span></button>
   <button class="bnav-btn" onclick="showSection('stats',this)"><span class="ico">📈</span><span class="lbl">Stats</span></button>
   <button class="bnav-btn" onclick="showSection('hist',this)"><span class="ico">🗓</span><span class="lbl">History</span></button>
 </div>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────
-let data = JSON.parse(localStorage.getItem('golf_v3') || '{"chip":[],"pitch":[],"putt":[]}');
-if(!data.chip)data.chip=[];if(!data.pitch)data.pitch=[];if(!data.putt)data.putt=[];
+// ── SAFE STORAGE (works on your phone; degrades gracefully if storage is blocked) ──
+function lsGet(k,def){try{const v=localStorage.getItem(k);return v===null?def:v;}catch(e){return def;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
 
-// Pass marks: chip20 = out of 20, putt5 = out of 5
-let marks = JSON.parse(localStorage.getItem('golf_marks') || '{"chip20":8,"pitch20":8,"putt5":3}');
-// Temp marks for the settings UI
+// ── DATA ──────────────────────────────────────────────────────
+let data = JSON.parse(lsGet('golf_v3','{"chip":[],"pitch":[],"putt":[],"irons":[]}'));
+if(!data.chip)data.chip=[];if(!data.pitch)data.pitch=[];if(!data.putt)data.putt=[];if(!data.irons)data.irons=[];
+
+const IRON_CLUBS=[
+  {id:'4i',name:'4 Iron'},{id:'5i',name:'5 Iron'},{id:'6i',name:'6 Iron'},
+  {id:'7i',name:'7 Iron'},{id:'8i',name:'8 Iron'},{id:'9i',name:'9 Iron'},
+  {id:'PW',name:'Pitching Wedge'},{id:'GW',name:'Gap Wedge'},
+  {id:'SW',name:'Sand Wedge'},{id:'LW',name:'Lob Wedge'},
+];
+
+// Pass marks: chip20 = out of 20, putt10 = out of 10 (legacy putt5 auto-migrates)
+let marks = JSON.parse(lsGet('golf_marks','{"chip20":8,"pitch20":8,"putt10":6,"iron":3}'));
+migrateMarks();
 let tempMarks = {...marks};
 
-function save(){ localStorage.setItem('golf_v3',JSON.stringify(data)); }
-function saveMarksToStorage(){ localStorage.setItem('golf_marks',JSON.stringify(marks)); }
+function migrateMarks(){
+  // legacy putting mark was out of 5; putting is now out of 10
+  if(marks.putt10===undefined){
+    marks.putt10=(marks.putt5!==undefined)?Math.min(10,Math.max(1,marks.putt5*2)):6;
+  }
+  if(marks.chip20===undefined)marks.chip20=8;
+  if(marks.pitch20===undefined)marks.pitch20=8;
+  if(marks.iron===undefined)marks.iron=3;
+  delete marks.putt5;
+  saveMarksToStorage();
+}
+
+function save(){ lsSet('golf_v3',JSON.stringify(data)); }
+function saveMarksToStorage(){ lsSet('golf_marks',JSON.stringify(marks)); }
 
 // ── SELECTION STATE ───────────────────────────────────────────
 let chipSel={c2:null,c5:null,c10:null};
 let pitchSel={p20:null,p40:null};
 let puttSel={short:null,lag:null,updown:null};
-let chartCfg={key:'chip2',theme:'chip'};
+let ironSel={};
 
 // ── INIT ──────────────────────────────────────────────────────
 window.addEventListener('load',()=>{
   const today=new Date().toISOString().split('T')[0];
-  ['chip-date','pitch-date','putt-date'].forEach(id=>document.getElementById(id).value=today);
+  ['chip-date','pitch-date','putt-date','iron-date'].forEach(id=>document.getElementById(id).value=today);
   buildGroup('sb-chip2',20,'chip-theme',v=>{chipSel.c2=v;updatePill('pill-chip2',v,marks.chip20);});
   buildGroup('sb-chip5',20,'chip-theme',v=>{chipSel.c5=v;updatePill('pill-chip5',v,marks.chip20);});
   buildGroup('sb-chip10',20,'chip-theme',v=>{chipSel.c10=v;updatePill('pill-chip10',v,marks.chip20);});
   buildGroup('sb-pitch20',20,'pitch-theme',v=>{pitchSel.p20=v;updatePill('pill-p20',v,marks.pitch20);});
   buildGroup('sb-pitch40',20,'pitch-theme',v=>{pitchSel.p40=v;updatePill('pill-p40',v,marks.pitch20);});
-  buildGroup('sb-putt-short',5,'putt-theme',v=>{puttSel.short=v;updatePill('pill-pshort',v,marks.putt5);});
-  buildGroup('sb-putt-lag',5,'putt-theme',v=>{puttSel.lag=v;updatePill('pill-plag',v,marks.putt5);});
-  buildGroup('sb-updown',5,'putt-theme',v=>{puttSel.updown=v;updatePill('pill-updown',v,marks.putt5);});
-  buildChartTabs();
+  buildGroup('sb-putt-short',10,'putt-theme',v=>{puttSel.short=v;updatePill('pill-pshort',v,marks.putt10);});
+  buildGroup('sb-putt-lag',10,'putt-theme',v=>{puttSel.lag=v;updatePill('pill-plag',v,marks.putt10);});
+  buildGroup('sb-updown',10,'putt-theme',v=>{puttSel.updown=v;updatePill('pill-updown',v,marks.putt10);});
+  buildIronCards();
+  buildAllCharts();
   refreshMarkUI();
   render();
 });
@@ -442,7 +546,7 @@ function showSection(id,btn){
   document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('sec-'+id).classList.add('active');
   btn.classList.add('active');
-  if(id==='stats'){refreshMarkUI();render();drawChart();}
+  if(id==='stats'){refreshMarkUI();render();}
 }
 
 // ── LOG ───────────────────────────────────────────────────────
@@ -471,7 +575,7 @@ function logPitch(){
 function logPutt(){
   if(puttSel.short===null||puttSel.lag===null||puttSel.updown===null){toast('putt-toast','Fill in all putting scores!',true);return;}
   const date=document.getElementById('putt-date').value;
-  data.putt.push({id:Date.now(),date,short:puttSel.short,lag:puttSel.lag,updown:puttSel.updown,mark:marks.putt5});
+  data.putt.push({id:Date.now(),date,short:puttSel.short,lag:puttSel.lag,updown:puttSel.updown,mark:marks.putt10,balls:10});
   data.putt.sort((a,b)=>a.date.localeCompare(b.date));
   save();puttSel={short:null,lag:null,updown:null};
   clearGroup('sb-putt-short');clearGroup('sb-putt-lag');clearGroup('sb-updown');
@@ -479,7 +583,43 @@ function logPutt(){
   toast('putt-toast','✅ Putting session saved!');render();
 }
 
-function clearGroup(id){document.getElementById(id).querySelectorAll('.s-btn').forEach(b=>b.classList.remove('active','chip-theme','pitch-theme','putt-theme'));}
+function buildIronCards(){
+  const wrap=document.getElementById('iron-cards');
+  wrap.innerHTML=IRON_CLUBS.map(c=>`
+    <div class="putt-card">
+      <div class="putt-card-header">
+        <div><div class="putt-name">${c.name}</div><div class="putt-desc">Best streak on target</div></div>
+        <div class="putt-right"><div class="putt-max">in a row</div><div class="pass-pill" id="pill-iron-${c.id}"></div></div>
+      </div>
+      <div class="score-row" id="sb-iron-${c.id}"></div>
+    </div>`).join('');
+  IRON_CLUBS.forEach(c=>{
+    buildGroup('sb-iron-'+c.id,8,'iron-theme',v=>{ironSel[c.id]=v;updateIronPill('pill-iron-'+c.id,v);});
+  });
+}
+
+function updateIronPill(id,val){
+  const el=document.getElementById(id);
+  if(val===null){el.className='pass-pill';el.textContent='';return;}
+  if(val===0){el.className='pass-pill show skip';el.textContent='— N/A';return;}
+  const passed=val>=marks.iron;
+  el.className='pass-pill show '+(passed?'pass':'fail');
+  el.textContent=passed?'✓ PASS':'✗ FAIL';
+}
+
+function logIrons(){
+  const clubs={};
+  IRON_CLUBS.forEach(c=>{if(ironSel[c.id]!=null&&ironSel[c.id]>0)clubs[c.id]=ironSel[c.id];});
+  if(Object.keys(clubs).length===0){toast('iron-toast','Log a score above 0 for at least one club!',true);return;}
+  const date=document.getElementById('iron-date').value;
+  data.irons.push({id:Date.now(),date,clubs,mark:marks.iron});
+  data.irons.sort((a,b)=>a.date.localeCompare(b.date));
+  save();ironSel={};
+  IRON_CLUBS.forEach(c=>{clearGroup('sb-iron-'+c.id);const e=document.getElementById('pill-iron-'+c.id);e.className='pass-pill';e.textContent='';});
+  toast('iron-toast','✅ Irons session saved!');render();
+}
+
+function clearGroup(id){document.getElementById(id).querySelectorAll('.s-btn').forEach(b=>b.classList.remove('active','chip-theme','pitch-theme','putt-theme','iron-theme'));}
 
 function toast(id,msg,err=false){
   const el=document.getElementById(id);el.textContent=msg;el.className='toast '+(err?'err':'ok');
@@ -489,43 +629,136 @@ function toast(id,msg,err=false){
 // ── DELETE ────────────────────────────────────────────────────
 function delSession(type,id){
   if(!confirm('Delete this session?'))return;
-  data[type]=data[type].filter(s=>s.id!==id);save();renderHistory();
+  data[type]=data[type].filter(s=>s.id!==id);save();render();
 }
 
-// ── PROGRESSION MARKS ─────────────────────────────────────────
-function getLevel(chip,pitch,putt){
-  const avg=(chip/20+pitch/20+putt/5)/3;
-  if(avg>=0.65)return{name:'Competitive',cls:'competitive'};
-  if(avg>=0.52)return{name:'Moderate',cls:'moderate'};
+// ── BACKUP / RESTORE ──────────────────────────────────────────
+function exportData(){
+  const payload={app:'golf-tracker',version:3,exported:new Date().toISOString(),data,marks};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='golf-backup-'+new Date().toISOString().split('T')[0]+'.json';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  toast('backup-toast','✅ Backup downloaded!');
+}
+
+function importData(ev){
+  const file=ev.target.files[0];
+  if(!file){return;}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const parsed=JSON.parse(e.target.result);
+      const d=parsed.data;
+      if(!d||!Array.isArray(d.chip)||!Array.isArray(d.pitch)||!Array.isArray(d.putt)){throw new Error('bad');}
+      if(!confirm('This will REPLACE your current data with the backup. Continue?')){ev.target.value='';return;}
+      data={chip:d.chip||[],pitch:d.pitch||[],putt:d.putt||[]};
+      data.chip.sort((a,b)=>a.date.localeCompare(b.date));
+      data.pitch.sort((a,b)=>a.date.localeCompare(b.date));
+      data.putt.sort((a,b)=>a.date.localeCompare(b.date));
+      if(parsed.marks&&parsed.marks.chip20){marks=parsed.marks;migrateMarks();}
+      save();refreshMarkUI();render();
+      toast('backup-toast','✅ Data restored!');
+    }catch(err){
+      toast('backup-toast','❌ Invalid backup file',true);
+    }
+    ev.target.value='';
+  };
+  reader.readAsText(file);
+}
+
+// ── LEVEL (driven by recent actual scores, not pass marks) ─────
+function recentRatio(type){
+  const arr=data[type];
+  if(!arr.length)return null;
+  const last5=arr.slice(-5);
+  let sum=0;
+  last5.forEach(s=>{
+    if(type==='chip')sum+=((s.c2+s.c5+s.c10)/3)/20;
+    else if(type==='pitch')sum+=((s.p20+s.p40)/2)/20;
+    else sum+=((s.short+s.lag+s.updown)/3)/(s.balls||5);
+  });
+  return sum/last5.length;
+}
+
+function levelForRatio(r){
+  if(r===null)return null;
+  if(r>=0.65)return{name:'Competitive',cls:'competitive'};
+  if(r>=0.52)return{name:'Moderate',cls:'moderate'};
   return{name:'Beginner',cls:'beginner'};
 }
 
+function ironRatio(){
+  const arr=data.irons;
+  if(!arr.length)return null;
+  const last5=arr.slice(-5);
+  let total=0,n=0;
+  last5.forEach(s=>{
+    const vals=Object.values(s.clubs).filter(v=>v>0);
+    if(vals.length){
+      const m=s.mark||marks.iron;
+      total+=vals.reduce((a,v)=>a+Math.min(v/m,1),0)/vals.length;
+      n++;
+    }
+  });
+  return n?total/n:null;
+}
+
+function updateLevels(){
+  const cr=recentRatio('chip'),pr=recentRatio('pitch'),ur=recentRatio('putt'),ir=ironRatio();
+  setBadge('chip-level-badge',levelForRatio(cr));
+  setBadge('pitch-level-badge',levelForRatio(pr));
+  setBadge('putt-level-badge',levelForRatio(ur));
+  setBadge('iron-level-badge',levelForRatio(ir));
+  const avail=[cr,pr,ur,ir].filter(x=>x!==null);
+  const overall=avail.length?avail.reduce((a,b)=>a+b,0)/avail.length:null;
+  const ol=document.getElementById('overall-level');
+  const lv=levelForRatio(overall);
+  if(lv){ol.textContent=lv.name;ol.className='level-name '+lv.cls;}
+  else{ol.textContent='No data';ol.className='level-name';}
+}
+
+function setBadge(id,lv){
+  const el=document.getElementById(id);
+  el.textContent=lv?lv.name.toUpperCase():'NO DATA';
+}
+
+// ── ROLLING AVERAGE (last 5 sessions) ─────────────────────────
+function last5Avg(type,field){
+  const arr=data[type];
+  if(!arr.length)return null;
+  const last5=arr.slice(-5);
+  if(type==='putt'){
+    // normalize any legacy /5 sessions onto the /10 scale
+    const sum=last5.reduce((a,s)=>a+s[field]/(s.balls||5)*10,0);
+    return sum/last5.length;
+  }
+  const sum=last5.reduce((a,s)=>a+s[field],0);
+  return sum/last5.length;
+}
+function avgTxt(v){return v===null?'L5 avg —':'L5 avg '+v.toFixed(1);}
+
+// ── PROGRESSION MARKS ─────────────────────────────────────────
 function refreshMarkUI(){
   tempMarks={...marks};
   document.getElementById('pv-chip20').textContent=marks.chip20+'/20';
   document.getElementById('pv-pitch20').textContent=marks.pitch20+'/20';
-  document.getElementById('pv-putt5').textContent=marks.putt5+'/5';
-  const lv=getLevel(marks.chip20,marks.pitch20,marks.putt5);
-  const el=document.getElementById('overall-level');
-  el.textContent=lv.name;el.className='level-name '+lv.cls;
-  // Update banners
+  document.getElementById('pv-putt10').textContent=marks.putt10+'/10';
+  document.getElementById('pv-iron').textContent=marks.iron;
   document.getElementById('chip-banner-sub').textContent=`Hit ${marks.chip20}/20 within putter's length to pass each distance`;
   document.getElementById('pitch-banner-sub').textContent=`Hit ${marks.pitch20}/20 within flagstick length to pass`;
-  document.getElementById('putt-banner-sub').textContent=`Make ${marks.putt5}/5 on each putting drill to pass`;
-  const lv2=getLevel(marks.chip20,marks.pitch20,marks.putt5);
-  ['chip-level-badge','pitch-level-badge','putt-level-badge'].forEach(id=>{document.getElementById(id).textContent=lv2.name.toUpperCase();});
-  // Update stat targets
-  document.getElementById('tgt-chip2').textContent='Target: '+marks.chip20+'/20';
-  document.getElementById('tgt-chip5').textContent='Target: '+marks.chip20+'/20';
-  document.getElementById('tgt-chip10').textContent='Target: '+marks.chip20+'/20';
-  document.getElementById('tgt-p20').textContent='Target: '+marks.pitch20+'/20';
-  document.getElementById('tgt-p40').textContent='Target: '+marks.pitch20+'/20';
-  ['tgt-pshort','tgt-plag','tgt-updown'].forEach(id=>{document.getElementById(id).textContent='Target: '+marks.putt5+'/5';});
+  document.getElementById('putt-banner-sub').textContent=`Make ${marks.putt10}/10 on each putting drill to pass`;
+  document.getElementById('iron-banner-sub').textContent=`Hit your target ${marks.iron} times in a row with each club`;
+  updateLevels();
 }
 
 function adjustMark(key,delta){
-  const max=key==='putt5'?5:20;
-  const min=key==='putt5'?1:1;
+  let max=20;
+  if(key==='putt10')max=10;
+  else if(key==='iron')max=8;
+  const min=1;
   marks[key]=Math.min(max,Math.max(min,marks[key]+delta));
   refreshMarkUI();
 }
@@ -534,51 +767,77 @@ function saveMarks(){
   saveMarksToStorage();
   toast('prog-toast','✅ Targets saved!');
   refreshMarkUI();
+  drawAllCharts();
 }
 
 // ── CHART ─────────────────────────────────────────────────────
 const chartDefs=[
-  {key:'chip2',label:'Chip 2ft',theme:'chip',max:20,src:'chip',field:'c2'},
-  {key:'chip5',label:'Chip 5ft',theme:'chip',max:20,src:'chip',field:'c5'},
-  {key:'chip10',label:'Chip 10ft',theme:'chip',max:20,src:'chip',field:'c10'},
+  {key:'chip2',label:'Chip 5yd',theme:'chip',max:20,src:'chip',field:'c2'},
+  {key:'chip5',label:'Chip 10yd',theme:'chip',max:20,src:'chip',field:'c5'},
+  {key:'chip10',label:'Chip 15yd',theme:'chip',max:20,src:'chip',field:'c10'},
   {key:'p20',label:'Pitch 20yd',theme:'pitch',max:20,src:'pitch',field:'p20'},
   {key:'p40',label:'Pitch 40yd',theme:'pitch',max:20,src:'pitch',field:'p40'},
-  {key:'pshort',label:'Putts',theme:'putt',max:5,src:'putt',field:'short'},
-  {key:'updown',label:'Up&Down',theme:'putt',max:5,src:'putt',field:'updown'},
+  {key:'pshort',label:'Short Putts',theme:'putt',max:10,src:'putt',field:'short'},
+  {key:'plag',label:'Lag Putts',theme:'putt',max:10,src:'putt',field:'lag'},
+  {key:'updown',label:'Up&Down',theme:'putt',max:10,src:'putt',field:'updown'},
+  {key:'iron_avg',label:'Iron Avg Streak',theme:'iron',max:8,src:'irons',compute:s=>{const v=Object.values(s.clubs).filter(x=>x>0);return v.length?v.reduce((a,b)=>a+b,0)/v.length:0;},targetVal:()=>marks.iron},
 ];
 
-function buildChartTabs(){
-  const row=document.getElementById('chartTabRow');
-  chartDefs.forEach((d,i)=>{
+const CHART_GROUPS={
+  stats:()=>chartDefs,
+  chip:()=>chartDefs.filter(d=>d.src==='chip'),
+  pitch:()=>chartDefs.filter(d=>d.src==='pitch'),
+  putt:()=>chartDefs.filter(d=>d.src==='putt'),
+  irons:()=>chartDefs.filter(d=>d.src==='irons'),
+};
+const CHART_INSTANCES=[
+  {inst:'chip',tabRow:'chartTabRow-chip',svg:'chartSvg-chip'},
+  {inst:'pitch',tabRow:'chartTabRow-pitch',svg:'chartSvg-pitch'},
+  {inst:'putt',tabRow:'chartTabRow-putt',svg:'chartSvg-putt'},
+  {inst:'irons',tabRow:'chartTabRow-irons',svg:'chartSvg-irons'},
+  {inst:'stats',tabRow:'chartTabRow',svg:'chartSvg'},
+];
+let chartState={};
+
+function buildAllCharts(){CHART_INSTANCES.forEach(c=>buildChartInstance(c.inst,c.tabRow,c.svg));}
+function drawAllCharts(){CHART_INSTANCES.forEach(c=>{if(document.getElementById(c.svg))drawChartInto(c.inst,c.svg);});}
+
+function buildChartInstance(inst,tabRowId,svgId){
+  const defs=CHART_GROUPS[inst]();
+  if(!chartState[inst])chartState[inst]=defs[0].key;
+  const row=document.getElementById(tabRowId);
+  if(!row)return;
+  row.innerHTML='';
+  defs.forEach(d=>{
+    const active=chartState[inst]===d.key;
     const b=document.createElement('button');
-    b.className='c-tab'+(i===0?' active-chip':'');b.textContent=d.label;
-    b.onclick=()=>{chartCfg={key:d.key,theme:d.theme};document.querySelectorAll('.c-tab').forEach(t=>t.className='c-tab');b.classList.add('active-'+d.theme);drawChart();};
+    b.className='c-tab'+(active?' active-'+d.theme:'');b.textContent=d.label;
+    b.onclick=()=>{chartState[inst]=d.key;row.querySelectorAll('.c-tab').forEach(t=>t.className='c-tab');b.classList.add('active-'+d.theme);drawChartInto(inst,svgId);};
     row.appendChild(b);
   });
+  drawChartInto(inst,svgId);
 }
 
-function drawChart(){
-  const svg=document.getElementById('chartSvg');svg.innerHTML='';
-  const def=chartDefs.find(d=>d.key===chartCfg.key);
+function drawChartInto(inst,svgId){
+  const svg=document.getElementById(svgId);if(!svg)return;svg.innerHTML='';
+  const def=chartDefs.find(d=>d.key===chartState[inst]);if(!def)return;
   const arr=data[def.src];
   if(arr.length<2){
     const t=svgEl('text');t.setAttribute('x','150');t.setAttribute('y','60');t.setAttribute('text-anchor','middle');t.setAttribute('fill','#bbb');t.setAttribute('font-size','10');t.setAttribute('font-family','Nunito');t.textContent='Log 2+ sessions to see chart';svg.appendChild(t);return;
   }
-  const vals=arr.map(s=>s[def.field]);
-  const target=def.src==='putt'?marks.putt5:(def.src==='pitch'?marks.pitch20:marks.chip20);
-  const colors={chip:'#2d6a4f',pitch:'#7b4f12',putt:'#2e6da4'};
-  const dots={chip:'#52b788',pitch:'#c17f3a',putt:'#60a8d0'};
+  const vals=def.compute?arr.map(def.compute):arr.map(s=>def.src==='putt'?s[def.field]/(s.balls||5)*10:s[def.field]);
+  const target=def.targetVal?def.targetVal():(def.src==='putt'?marks.putt10:(def.src==='pitch'?marks.pitch20:marks.chip20));
+  const colors={chip:'#2d6a4f',pitch:'#7b4f12',putt:'#2e6da4',iron:'#37474f'};
+  const dots={chip:'#52b788',pitch:'#c17f3a',putt:'#60a8d0',iron:'#607d8b'};
   const stroke=colors[def.theme];const dot=dots[def.theme];
   const W=300,H=110,px=24,py=12;
 
-  // Grid
   for(let i=0;i<=4;i++){
     const y=py+(H-2*py)*(1-i/4);
     const l=svgEl('line');l.setAttribute('x1',px);l.setAttribute('x2',W-px);l.setAttribute('y1',y);l.setAttribute('y2',y);l.setAttribute('stroke','#f0f0f0');l.setAttribute('stroke-width','1');svg.appendChild(l);
     const t=svgEl('text');t.setAttribute('x',px-4);t.setAttribute('y',y+3);t.setAttribute('text-anchor','end');t.setAttribute('font-size','8');t.setAttribute('fill','#ccc');t.setAttribute('font-family','Nunito');t.textContent=Math.round(def.max*i/4);svg.appendChild(t);
   }
 
-  // Target line
   const ty=py+(H-2*py)*(1-target/def.max);
   const tl=svgEl('line');tl.setAttribute('x1',px);tl.setAttribute('x2',W-px);tl.setAttribute('y1',ty);tl.setAttribute('y2',ty);tl.setAttribute('stroke','#f59e0b');tl.setAttribute('stroke-width','1.5');tl.setAttribute('stroke-dasharray','4,3');svg.appendChild(tl);
   const tt=svgEl('text');tt.setAttribute('x',W-px+2);tt.setAttribute('y',ty+3);tt.setAttribute('font-size','8');tt.setAttribute('fill','#f59e0b');tt.setAttribute('font-family','Nunito');tt.setAttribute('font-weight','700');tt.textContent='TARGET';svg.appendChild(tt);
@@ -594,18 +853,22 @@ function drawChart(){
   pts.forEach(([x,y],i)=>{
     const passed=vals[i]>=target;
     const c=svgEl('circle');c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r','4.5');c.setAttribute('fill',passed?dot:'#ef4444');c.setAttribute('stroke','white');c.setAttribute('stroke-width','2');svg.appendChild(c);
-    const t=svgEl('text');t.setAttribute('x',x);t.setAttribute('y',y-9);t.setAttribute('text-anchor','middle');t.setAttribute('font-size','9');t.setAttribute('fill',stroke);t.setAttribute('font-family','Nunito');t.setAttribute('font-weight','700');t.textContent=vals[i];svg.appendChild(t);
+    const t=svgEl('text');t.setAttribute('x',x);t.setAttribute('y',y-9);t.setAttribute('text-anchor','middle');t.setAttribute('font-size','9');t.setAttribute('fill',stroke);t.setAttribute('font-family','Nunito');t.setAttribute('font-weight','700');t.textContent=def.compute?Math.round(vals[i]*10)/10:vals[i];svg.appendChild(t);
   });
 }
 
 function svgEl(tag){return document.createElementNS('http://www.w3.org/2000/svg',tag);}
 
 // ── RENDER ────────────────────────────────────────────────────
-function render(){renderStats();renderHistory();}
+function render(){renderStats();renderHistory();updateLevels();drawAllCharts();}
 
 function best(arr,field){
   if(!arr.length)return'—';
-  return Math.max(...arr.map(s=>s[field]))+'/'+(field==='c2'||field==='c5'||field==='c10'||field==='p20'||field==='p40'?'20':'5');
+  if(['c2','c5','c10','p20','p40'].includes(field)){
+    return Math.max(...arr.map(s=>s[field]))+'/20';
+  }
+  // putting: normalize legacy /5 sessions onto the /10 scale
+  return Math.max(...arr.map(s=>s[field]/(s.balls||5)*10))+'/10';
 }
 
 function renderStats(){
@@ -618,6 +881,24 @@ function renderStats(){
   document.getElementById('st-pshort').textContent=best(data.putt,'short');
   document.getElementById('st-plag').textContent=best(data.putt,'lag');
   document.getElementById('st-updown').textContent=best(data.putt,'updown');
+
+  // Rolling last-5 averages
+  document.getElementById('tgt-chip2').textContent=avgTxt(last5Avg('chip','c2'));
+  document.getElementById('tgt-chip5').textContent=avgTxt(last5Avg('chip','c5'));
+  document.getElementById('tgt-chip10').textContent=avgTxt(last5Avg('chip','c10'));
+  document.getElementById('tgt-p20').textContent=avgTxt(last5Avg('pitch','p20'));
+  document.getElementById('tgt-p40').textContent=avgTxt(last5Avg('pitch','p40'));
+  document.getElementById('tgt-pshort').textContent=avgTxt(last5Avg('putt','short'));
+  document.getElementById('tgt-plag').textContent=avgTxt(last5Avg('putt','lag'));
+  document.getElementById('tgt-updown').textContent=avgTxt(last5Avg('putt','updown'));
+
+  // Irons summary
+  let ibest=0;const perClubBest={};
+  data.irons.forEach(s=>{Object.entries(s.clubs).forEach(([k,v])=>{if(v>ibest)ibest=v;if(v>(perClubBest[k]||-1))perClubBest[k]=v;});});
+  const dialed=Object.values(perClubBest).filter(v=>v>=marks.iron).length;
+  document.getElementById('st-iron-best').textContent=data.irons.length?ibest:'—';
+  document.getElementById('st-iron-dialed').textContent=dialed;
+  document.getElementById('st-iron-sess').textContent=data.irons.length;
 }
 
 function fmtDate(ds){const d=new Date(ds+'T00:00:00');return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
@@ -628,7 +909,8 @@ function passClass(val,target){return val>=target?'p':'f';}
 function getBadge(s,type){
   if(type==='chip'){const t=s.c2+s.c5+s.c10;if(t>=54)return'🔥 Elite Chipper';if(t>=45)return'⭐ Great Session';if(s.c2>=(s.mark||8)*1.5)return'🎯 Crushing It';}
   if(type==='pitch'){if(s.p20>=18&&s.p40>=18)return'🔥 Elite Pitcher';if(s.p20+s.p40>=32)return'⭐ Strong Pitching';}
-  if(type==='putt'){if(s.short===5&&s.updown>=4)return'💫 Short Game Ace';if(s.updown>=4)return'🎯 Up & Down Machine';}
+  if(type==='putt'){const b=s.balls||5;if(s.short/b>=1&&s.updown/b>=0.8)return'💫 Short Game Ace';if(s.updown/b>=0.8)return'🎯 Up & Down Machine';}
+  if(type==='irons'){const vals=Object.values(s.clubs).filter(v=>v>0);const m=s.mark||marks.iron;const passed=vals.filter(v=>v>=m).length;if(vals.length>=6&&passed===vals.length)return'🔥 Whole Bag Dialed';if(passed>=5)return'⭐ Dialed In';}
   return null;
 }
 
@@ -637,6 +919,7 @@ function renderHistory(){
     ...data.chip.map(s=>({...s,type:'chip'})),
     ...data.pitch.map(s=>({...s,type:'pitch'})),
     ...data.putt.map(s=>({...s,type:'putt'})),
+    ...data.irons.map(s=>({...s,type:'irons'})),
   ].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
 
   const hist=document.getElementById('histList');
@@ -644,13 +927,13 @@ function renderHistory(){
 
   hist.innerHTML=all.map(s=>{
     const badge=getBadge(s,s.type);
-    const cm=s.mark||marks.chip20;const pm=s.mark||marks.pitch20;const putm=s.mark||marks.putt5;
+    const cm=s.mark||marks.chip20;const pm=s.mark||marks.pitch20;const putm=s.mark||marks.putt10;const pballs=s.balls||5;
     let scoresHtml='';
     if(s.type==='chip'){
       scoresHtml=`<div class="hist-section"><span class="hist-section-lbl chip">🏌️ Chipping</span><div class="hist-scores-grid">
-        <div class="hist-score-cell"><div class="hsc-val">${s.c2}/20</div><div class="hsc-lbl">2 Feet</div><div class="hsc-status ${passClass(s.c2,cm)}">${passStatus(s.c2,cm)}</div></div>
-        <div class="hist-score-cell"><div class="hsc-val">${s.c5}/20</div><div class="hsc-lbl">5 Feet</div><div class="hsc-status ${passClass(s.c5,cm)}">${passStatus(s.c5,cm)}</div></div>
-        <div class="hist-score-cell"><div class="hsc-val">${s.c10}/20</div><div class="hsc-lbl">10 Feet</div><div class="hsc-status ${passClass(s.c10,cm)}">${passStatus(s.c10,cm)}</div></div>
+        <div class="hist-score-cell"><div class="hsc-val">${s.c2}/20</div><div class="hsc-lbl">5 Yards</div><div class="hsc-status ${passClass(s.c2,cm)}">${passStatus(s.c2,cm)}</div></div>
+        <div class="hist-score-cell"><div class="hsc-val">${s.c5}/20</div><div class="hsc-lbl">10 Yards</div><div class="hsc-status ${passClass(s.c5,cm)}">${passStatus(s.c5,cm)}</div></div>
+        <div class="hist-score-cell"><div class="hsc-val">${s.c10}/20</div><div class="hsc-lbl">15 Yards</div><div class="hsc-status ${passClass(s.c10,cm)}">${passStatus(s.c10,cm)}</div></div>
       </div></div>`;
     }else if(s.type==='pitch'){
       scoresHtml=`<div class="hist-section"><span class="hist-section-lbl pitch">🏹 Pitching</span><div class="hist-scores-grid">
@@ -658,12 +941,16 @@ function renderHistory(){
         <div class="hist-score-cell"><div class="hsc-val pv">${s.p40}/20</div><div class="hsc-lbl">40 Yards</div><div class="hsc-status ${passClass(s.p40,pm)}">${passStatus(s.p40,pm)}</div></div>
         <div class="hist-score-cell"><div class="hsc-val pv">${s.p20+s.p40}/40</div><div class="hsc-lbl">Total</div></div>
       </div></div>`;
-    }else{
+    }else if(s.type==='putt'){
       scoresHtml=`<div class="hist-section"><span class="hist-section-lbl putt">⛳ Putting</span><div class="hist-scores-grid">
-        <div class="hist-score-cell"><div class="hsc-val putv">${s.short}/5</div><div class="hsc-lbl">Short</div><div class="hsc-status ${passClass(s.short,putm)}">${passStatus(s.short,putm)}</div></div>
-        <div class="hist-score-cell"><div class="hsc-val putv">${s.lag}/5</div><div class="hsc-lbl">Lag</div><div class="hsc-status ${passClass(s.lag,putm)}">${passStatus(s.lag,putm)}</div></div>
-        <div class="hist-score-cell"><div class="hsc-val putv">${s.updown}/5</div><div class="hsc-lbl">U&D</div><div class="hsc-status ${passClass(s.updown,putm)}">${passStatus(s.updown,putm)}</div></div>
+        <div class="hist-score-cell"><div class="hsc-val putv">${s.short}/${pballs}</div><div class="hsc-lbl">Short</div><div class="hsc-status ${passClass(s.short,putm)}">${passStatus(s.short,putm)}</div></div>
+        <div class="hist-score-cell"><div class="hsc-val putv">${s.lag}/${pballs}</div><div class="hsc-lbl">Lag</div><div class="hsc-status ${passClass(s.lag,putm)}">${passStatus(s.lag,putm)}</div></div>
+        <div class="hist-score-cell"><div class="hsc-val putv">${s.updown}/${pballs}</div><div class="hsc-lbl">U&D</div><div class="hsc-status ${passClass(s.updown,putm)}">${passStatus(s.updown,putm)}</div></div>
       </div></div>`;
+    }else{
+      const im=s.mark||marks.iron;
+      const cells=IRON_CLUBS.filter(c=>s.clubs[c.id]!=null&&s.clubs[c.id]>0).map(c=>{const v=s.clubs[c.id];return `<div class="hist-score-cell"><div class="hsc-val irv">${v}</div><div class="hsc-lbl">${c.id}</div><div class="hsc-status ${v>=im?'p':'f'}">${v>=im?'✓ Pass':'✗ Fail'}</div></div>`;}).join('');
+      scoresHtml=`<div class="hist-section"><span class="hist-section-lbl iron">🎯 Irons · ${im} in a row</span><div class="hist-scores-grid">${cells}</div></div>`;
     }
     return`<div class="hist-item"><div class="hist-header"><div class="hist-date">${fmtDate(s.date)}</div><button class="hist-del" onclick="delSession('${s.type}',${s.id})">✕</button></div>${scoresHtml}${badge?`<span class="badge">${badge}</span>`:''}</div>`;
   }).join('');

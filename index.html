@@ -217,6 +217,7 @@
     <div class="date-row">
       <label>Date</label><input type="date" id="chip-date">
     </div>
+    <div style="font-size:0.68rem;color:var(--muted);font-weight:600;margin:-2px 4px 12px;line-height:1.4;">Short on time? Tap <b>0</b> on any distance to skip it — it'll be left out of the session.</div>
     <div class="dist-group">
       <div class="dist-group-header">
         <div><div class="dist-label chip-color">5 Yards</div><div class="dist-sub">Short chip · 20 balls</div></div>
@@ -260,6 +261,7 @@
     <div class="date-row">
       <label>Date</label><input type="date" id="pitch-date">
     </div>
+    <div style="font-size:0.68rem;color:var(--muted);font-weight:600;margin:-2px 4px 12px;line-height:1.4;">Short on time? Tap <b>0</b> on any distance to skip it — it'll be left out of the session.</div>
     <div class="dist-group">
       <div class="dist-group-header">
         <div><div class="dist-label pitch-color">20 Yards</div><div class="dist-sub">From the hole — 20 balls</div></div>
@@ -296,6 +298,7 @@
     <div class="date-row">
       <label>Date</label><input type="date" id="putt-date">
     </div>
+    <div style="font-size:0.68rem;color:var(--muted);font-weight:600;margin:-2px 4px 12px;line-height:1.4;">Short on time? Tap <b>0</b> on any drill to skip it — it'll be left out of the session.</div>
     <div class="putt-card">
       <div class="putt-card-header">
         <div><div class="putt-name">🎯 Short Putts</div><div class="putt-desc">1-yard putts made (out of 10)</div></div>
@@ -575,6 +578,7 @@ function buildGroup(id,max,theme,setter){
 function updatePill(id,val,target){
   const el=document.getElementById(id);
   if(val===null){el.className='pass-pill';el.textContent='';return;}
+  if(val===0){el.className='pass-pill show skip';el.textContent='— N/A';return;}
   const passed=val>=target;
   el.className='pass-pill show '+(passed?'pass':'fail');
   el.textContent=passed?'✓ PASS':'✗ FAIL';
@@ -591,9 +595,14 @@ function showSection(id,btn){
 
 // ── LOG ───────────────────────────────────────────────────────
 function logChip(){
-  if(chipSel.c2===null||chipSel.c5===null||chipSel.c10===null){toast('chip-toast','Fill in all 3 distances!',true);return;}
   const date=document.getElementById('chip-date').value;
-  data.chip.push({id:Date.now(),date,c2:chipSel.c2,c5:chipSel.c5,c10:chipSel.c10,pm:{c2:marks.chip_c2,c5:marks.chip_c5,c10:marks.chip_c10}});
+  const sess={id:Date.now(),date,pm:{c2:marks.chip_c2,c5:marks.chip_c5,c10:marks.chip_c10}};
+  let any=false;
+  if(chipSel.c2>0){sess.c2=chipSel.c2;any=true;}
+  if(chipSel.c5>0){sess.c5=chipSel.c5;any=true;}
+  if(chipSel.c10>0){sess.c10=chipSel.c10;any=true;}
+  if(!any){toast('chip-toast','Log a score above 0 for at least one distance!',true);return;}
+  data.chip.push(sess);
   data.chip.sort((a,b)=>a.date.localeCompare(b.date));
   save();chipSel={c2:null,c5:null,c10:null};
   clearGroup('sb-chip2');clearGroup('sb-chip5');clearGroup('sb-chip10');
@@ -602,9 +611,13 @@ function logChip(){
 }
 
 function logPitch(){
-  if(pitchSel.p20===null||pitchSel.p40===null){toast('pitch-toast','Fill in both distances!',true);return;}
   const date=document.getElementById('pitch-date').value;
-  data.pitch.push({id:Date.now(),date,p20:pitchSel.p20,p40:pitchSel.p40,mark:marks.pitch20});
+  const sess={id:Date.now(),date,mark:marks.pitch20};
+  let any=false;
+  if(pitchSel.p20>0){sess.p20=pitchSel.p20;any=true;}
+  if(pitchSel.p40>0){sess.p40=pitchSel.p40;any=true;}
+  if(!any){toast('pitch-toast','Log a score above 0 for at least one distance!',true);return;}
+  data.pitch.push(sess);
   data.pitch.sort((a,b)=>a.date.localeCompare(b.date));
   save();pitchSel={p20:null,p40:null};
   clearGroup('sb-pitch20');clearGroup('sb-pitch40');
@@ -613,9 +626,14 @@ function logPitch(){
 }
 
 function logPutt(){
-  if(puttSel.short===null||puttSel.lag===null||puttSel.mid===null){toast('putt-toast','Fill in all putting scores!',true);return;}
   const date=document.getElementById('putt-date').value;
-  data.putt.push({id:Date.now(),date,short:puttSel.short,lag:puttSel.lag,mid:puttSel.mid,balls:10,pm:{short:marks.putt_short,lag:marks.putt_lag,mid:marks.putt_mid}});
+  const sess={id:Date.now(),date,balls:10,pm:{short:marks.putt_short,lag:marks.putt_lag,mid:marks.putt_mid}};
+  let any=false;
+  if(puttSel.short>0){sess.short=puttSel.short;any=true;}
+  if(puttSel.lag>0){sess.lag=puttSel.lag;any=true;}
+  if(puttSel.mid>0){sess.mid=puttSel.mid;any=true;}
+  if(!any){toast('putt-toast','Log a score above 0 for at least one drill!',true);return;}
+  data.putt.push(sess);
   data.putt.sort((a,b)=>a.date.localeCompare(b.date));
   save();puttSel={short:null,lag:null,mid:null};
   clearGroup('sb-putt-short');clearGroup('sb-putt-lag');clearGroup('sb-mid');
@@ -694,10 +712,11 @@ function importData(ev){
       const d=parsed.data;
       if(!d||!Array.isArray(d.chip)||!Array.isArray(d.pitch)||!Array.isArray(d.putt)){throw new Error('bad');}
       if(!confirm('This will REPLACE your current data with the backup. Continue?')){ev.target.value='';return;}
-      data={chip:d.chip||[],pitch:d.pitch||[],putt:d.putt||[]};
+      data={chip:d.chip||[],pitch:d.pitch||[],putt:d.putt||[],irons:d.irons||[]};
       data.chip.sort((a,b)=>a.date.localeCompare(b.date));
       data.pitch.sort((a,b)=>a.date.localeCompare(b.date));
       data.putt.sort((a,b)=>a.date.localeCompare(b.date));
+      data.irons.sort((a,b)=>a.date.localeCompare(b.date));
       if(parsed.marks&&(parsed.marks.chip_c2||parsed.marks.chip20)){marks=parsed.marks;migrateMarks();}
       save();refreshMarkUI();render();
       toast('backup-toast','✅ Data restored!');
@@ -714,13 +733,15 @@ function recentRatio(type){
   const arr=data[type];
   if(!arr.length)return null;
   const last5=arr.slice(-5);
-  let sum=0;
+  let total=0,n=0;
   last5.forEach(s=>{
-    if(type==='chip')sum+=((s.c2+s.c5+s.c10)/3)/20;
-    else if(type==='pitch')sum+=((s.p20+s.p40)/2)/20;
-    else sum+=((s.short+s.lag+(s.mid!=null?s.mid:s.updown))/3)/(s.balls||5);
+    let vals;
+    if(type==='chip')vals=[s.c2,s.c5,s.c10].filter(v=>v>0).map(v=>v/20);
+    else if(type==='pitch')vals=[s.p20,s.p40].filter(v=>v>0).map(v=>v/20);
+    else{const den=s.balls||5;const third=s.mid!=null?s.mid:s.updown;vals=[s.short,s.lag,third].filter(v=>v>0).map(v=>v/den);}
+    if(vals.length){total+=vals.reduce((a,b)=>a+b,0)/vals.length;n++;}
   });
-  return sum/last5.length;
+  return n?total/n:null;
 }
 
 function levelForRatio(r){
@@ -767,7 +788,7 @@ function setBadge(id,lv){
 
 // ── ROLLING AVERAGE (last 5 sessions) ─────────────────────────
 function last5Avg(type,field){
-  const arr=data[type].filter(s=>s[field]!=null);
+  const arr=data[type].filter(s=>s[field]>0);
   if(!arr.length)return null;
   const last5=arr.slice(-5);
   if(type==='putt'){
@@ -866,7 +887,7 @@ function drawChartInto(inst,svgId){
   const svg=document.getElementById(svgId);if(!svg)return;svg.innerHTML='';
   const def=chartDefs.find(d=>d.key===chartState[inst]);if(!def)return;
   let arr=data[def.src];
-  if(!def.compute&&def.field)arr=arr.filter(s=>s[def.field]!=null);
+  if(!def.compute&&def.field)arr=arr.filter(s=>s[def.field]>0);
   if(arr.length<2){
     const t=svgEl('text');t.setAttribute('x','150');t.setAttribute('y','60');t.setAttribute('text-anchor','middle');t.setAttribute('fill','#bbb');t.setAttribute('font-size','10');t.setAttribute('font-family','Nunito');t.textContent='Log 2+ sessions to see chart';svg.appendChild(t);return;
   }
@@ -908,7 +929,7 @@ function svgEl(tag){return document.createElementNS('http://www.w3.org/2000/svg'
 function render(){renderStats();renderHistory();updateLevels();drawAllCharts();}
 
 function best(arr,field){
-  const rows=arr.filter(s=>s[field]!=null);
+  const rows=arr.filter(s=>s[field]>0);
   if(!rows.length)return'—';
   if(['c2','c5','c10','p20','p40'].includes(field)){
     return Math.max(...rows.map(s=>s[field]))+'/20';
@@ -982,25 +1003,20 @@ function renderHistory(){
     const pmM=(s.pm&&s.pm.mid)??s.mark??marks.putt_mid;
     let scoresHtml='';
     if(s.type==='chip'){
-      scoresHtml=`<div class="hist-section"><span class="hist-section-lbl chip">🏌️ Chipping</span><div class="hist-scores-grid">
-        <div class="hist-score-cell"><div class="hsc-val">${s.c2}/20</div><div class="hsc-lbl">5 Yards</div><div class="hsc-status ${passClass(s.c2,cm2)}">${passStatus(s.c2,cm2)}</div></div>
-        <div class="hist-score-cell"><div class="hsc-val">${s.c5}/20</div><div class="hsc-lbl">10 Yards</div><div class="hsc-status ${passClass(s.c5,cm5)}">${passStatus(s.c5,cm5)}</div></div>
-        <div class="hist-score-cell"><div class="hsc-val">${s.c10}/20</div><div class="hsc-lbl">15 Yards</div><div class="hsc-status ${passClass(s.c10,cm10)}">${passStatus(s.c10,cm10)}</div></div>
-      </div></div>`;
+      const cells=[{v:s.c2,lbl:'5 Yards',m:cm2},{v:s.c5,lbl:'10 Yards',m:cm5},{v:s.c10,lbl:'15 Yards',m:cm10}]
+        .filter(d=>d.v>0).map(d=>`<div class="hist-score-cell"><div class="hsc-val">${d.v}/20</div><div class="hsc-lbl">${d.lbl}</div><div class="hsc-status ${passClass(d.v,d.m)}">${passStatus(d.v,d.m)}</div></div>`).join('');
+      scoresHtml=`<div class="hist-section"><span class="hist-section-lbl chip">🏌️ Chipping</span><div class="hist-scores-grid">${cells}</div></div>`;
     }else if(s.type==='pitch'){
-      scoresHtml=`<div class="hist-section"><span class="hist-section-lbl pitch">🏹 Pitching</span><div class="hist-scores-grid">
-        <div class="hist-score-cell"><div class="hsc-val pv">${s.p20}/20</div><div class="hsc-lbl">20 Yards</div><div class="hsc-status ${passClass(s.p20,pm)}">${passStatus(s.p20,pm)}</div></div>
-        <div class="hist-score-cell"><div class="hsc-val pv">${s.p40}/20</div><div class="hsc-lbl">40 Yards</div><div class="hsc-status ${passClass(s.p40,pm)}">${passStatus(s.p40,pm)}</div></div>
-        <div class="hist-score-cell"><div class="hsc-val pv">${s.p20+s.p40}/40</div><div class="hsc-lbl">Total</div></div>
-      </div></div>`;
+      let cells=[{v:s.p20,lbl:'20 Yards'},{v:s.p40,lbl:'40 Yards'}]
+        .filter(d=>d.v>0).map(d=>`<div class="hist-score-cell"><div class="hsc-val pv">${d.v}/20</div><div class="hsc-lbl">${d.lbl}</div><div class="hsc-status ${passClass(d.v,pm)}">${passStatus(d.v,pm)}</div></div>`).join('');
+      if(s.p20>0&&s.p40>0)cells+=`<div class="hist-score-cell"><div class="hsc-val pv">${s.p20+s.p40}/40</div><div class="hsc-lbl">Total</div></div>`;
+      scoresHtml=`<div class="hist-section"><span class="hist-section-lbl pitch">🏹 Pitching</span><div class="hist-scores-grid">${cells}</div></div>`;
     }else if(s.type==='putt'){
       const thirdVal=s.mid!=null?s.mid:s.updown;
       const thirdLbl=s.mid!=null?'Mid':'U&D';
-      scoresHtml=`<div class="hist-section"><span class="hist-section-lbl putt">⛳ Putting</span><div class="hist-scores-grid">
-        <div class="hist-score-cell"><div class="hsc-val putv">${s.short}/${pballs}</div><div class="hsc-lbl">Short</div><div class="hsc-status ${passClass(s.short,pmS)}">${passStatus(s.short,pmS)}</div></div>
-        <div class="hist-score-cell"><div class="hsc-val putv">${s.lag}/${pballs}</div><div class="hsc-lbl">Lag</div><div class="hsc-status ${passClass(s.lag,pmL)}">${passStatus(s.lag,pmL)}</div></div>
-        <div class="hist-score-cell"><div class="hsc-val putv">${thirdVal}/${pballs}</div><div class="hsc-lbl">${thirdLbl}</div><div class="hsc-status ${passClass(thirdVal,pmM)}">${passStatus(thirdVal,pmM)}</div></div>
-      </div></div>`;
+      const cells=[{v:s.short,lbl:'Short',m:pmS},{v:thirdVal,lbl:thirdLbl,m:pmM},{v:s.lag,lbl:'Lag',m:pmL}]
+        .filter(d=>d.v>0).map(d=>`<div class="hist-score-cell"><div class="hsc-val putv">${d.v}/${pballs}</div><div class="hsc-lbl">${d.lbl}</div><div class="hsc-status ${passClass(d.v,d.m)}">${passStatus(d.v,d.m)}</div></div>`).join('');
+      scoresHtml=`<div class="hist-section"><span class="hist-section-lbl putt">⛳ Putting</span><div class="hist-scores-grid">${cells}</div></div>`;
     }else{
       const im=s.mark||marks.iron;
       const cells=IRON_CLUBS.filter(c=>s.clubs[c.id]!=null&&s.clubs[c.id]>0).map(c=>{const v=s.clubs[c.id];return `<div class="hist-score-cell"><div class="hsc-val irv">${v}</div><div class="hsc-lbl">${c.id}</div><div class="hsc-status ${v>=im?'p':'f'}">${v>=im?'✓ Pass':'✗ Fail'}</div></div>`;}).join('');

@@ -20,9 +20,9 @@
   body{font-family:'Nunito',sans-serif;background:var(--g1);color:var(--text);min-height:100vh;}
 
   /* HEADER */
-  .app-header{background:linear-gradient(160deg,var(--g1) 0%,var(--g2) 100%);padding:22px 20px 20px;text-align:center;position:relative;}
+  .app-header{background:linear-gradient(160deg,var(--g1) 0%,var(--g2) 100%);padding:30px 20px 28px;text-align:center;position:relative;}
   .app-header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:22px;background:var(--cream);border-radius:22px 22px 0 0;}
-  .hdr-flag{font-size:1.8rem;display:block;margin-bottom:2px;}
+  .hdr-flag{font-size:1.7rem;display:block;margin-bottom:3px;line-height:1.1;}
   .hdr-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:4px;color:var(--gold2);line-height:1;}
   .hdr-sub{font-size:0.68rem;color:var(--g3);letter-spacing:2px;font-weight:300;margin-top:2px;}
 
@@ -134,6 +134,37 @@
   .level-name.moderate{color:var(--gold2);}
   .level-name.competitive{color:#f87171;}
   .level-hint{font-size:0.62rem;color:var(--g4);text-align:right;margin-top:6px;line-height:1.3;}
+
+  /* PROGRESS OVERVIEW */
+  .pov-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;}
+  .pov-tile{background:rgba(255,255,255,0.06);border-radius:10px;padding:11px 4px;text-align:center;}
+  .pov-num{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold2);line-height:1;}
+  .pov-num.pov-txt{font-size:1.35rem;}
+  .pov-lbl{font-size:0.52rem;text-transform:uppercase;letter-spacing:0.4px;color:var(--g4);margin-top:4px;font-weight:700;}
+  .pov-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .pov-cat{background:rgba(255,255,255,0.04);border-radius:10px;padding:9px 4px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px;}
+  .pov-cat-ico{font-size:1rem;}
+  .pov-cat-n{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;color:var(--cream);line-height:1;}
+  .pov-cat-l{font-size:0.52rem;text-transform:uppercase;letter-spacing:0.4px;color:var(--g4);font-weight:700;}
+
+  /* PRACTICE CALENDAR */
+  .cal-card{background:var(--white);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:var(--card-shadow);}
+  .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+  .cal-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:1px;color:var(--g1);}
+  .cal-nav{width:30px;height:30px;border-radius:50%;border:1.5px solid #e4e0d6;background:transparent;color:var(--g2);font-size:1.1rem;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .cal-nav:active{background:#f0ece2;}
+  .cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:5px;}
+  .cal-dow span{text-align:center;font-size:0.54rem;font-weight:800;color:var(--muted);text-transform:uppercase;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+  .cal-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:#b9b3a4;background:#f4f2ec;}
+  .cal-cell.empty{background:transparent;}
+  .cal-cell.l1{background:#c7e9d4;color:var(--g1);}
+  .cal-cell.l2{background:#82cfa0;color:var(--g1);}
+  .cal-cell.l3{background:#40a96b;color:#fff;}
+  .cal-cell.l4{background:#1b7a44;color:#fff;}
+  .cal-cell.today{box-shadow:0 0 0 2px var(--gold);}
+  .cal-legend{display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:10px;font-size:0.56rem;color:var(--muted);font-weight:700;}
+  .cal-legend .sw{width:13px;height:13px;border-radius:3px;display:inline-block;}
   .prog-save-btn{width:100%;background:var(--gold);color:var(--g1);border:none;border-radius:10px;padding:12px;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;cursor:pointer;margin-top:14px;transition:opacity 0.2s;}
   .prog-save-btn:hover{opacity:0.85;}
 
@@ -250,31 +281,38 @@
 
   <!-- ══ PITCHING ══ -->
   <div class="section" id="sec-pitch">
-    <div class="sec-chip pitch">🏹 Pitch Shots — full swings</div>
+    <div class="sec-chip pitch">🏹 Pitching — hit your target streak</div>
     <div class="pass-banner pitch-banner">
       <div class="banner-left">
         <div class="banner-title">🎯 Pass Mark</div>
-        <div class="banner-sub" id="pitch-banner-sub">Hit 8/20 within flagstick length to pass</div>
+        <div class="banner-sub" id="pitch-banner-sub">Hit your target 3 times in a row at each distance (within 10 yd)</div>
       </div>
       <div class="level-badge" id="pitch-level-badge">NO DATA</div>
     </div>
     <div class="date-row">
       <label>Date</label><input type="date" id="pitch-date">
     </div>
-    <div style="font-size:0.68rem;color:var(--muted);font-weight:600;margin:-2px 4px 12px;line-height:1.4;">Short on time? Tap <b>0</b> on any distance to skip it — it'll be left out of the session.</div>
+    <div style="font-size:0.68rem;color:var(--muted);font-weight:600;margin:-2px 4px 12px;line-height:1.4;">Log your best streak of consecutive on-target shots (8 tries per distance). A shot within <b>10 yards</b> of the target counts. Tap <b>0</b> on any distance to skip it.</div>
     <div class="dist-group">
       <div class="dist-group-header">
-        <div><div class="dist-label pitch-color">20 Yards</div><div class="dist-sub">From the hole — 20 balls</div></div>
-        <div class="dist-right"><div class="dist-max">/ 20</div><div class="pass-pill" id="pill-p20"></div></div>
+        <div><div class="dist-label pitch-color">30 Yards</div><div class="dist-sub">Best streak · within 10 yd · 8 tries</div></div>
+        <div class="dist-right"><div class="dist-max">in a row</div><div class="pass-pill" id="pill-p30"></div></div>
       </div>
-      <div class="score-row" id="sb-pitch20"></div>
+      <div class="score-row" id="sb-p30"></div>
     </div>
     <div class="dist-group">
       <div class="dist-group-header">
-        <div><div class="dist-label pitch-color">40 Yards</div><div class="dist-sub">From the hole — 20 balls</div></div>
-        <div class="dist-right"><div class="dist-max">/ 20</div><div class="pass-pill" id="pill-p40"></div></div>
+        <div><div class="dist-label pitch-color">50 Yards</div><div class="dist-sub">Best streak · within 10 yd · 8 tries</div></div>
+        <div class="dist-right"><div class="dist-max">in a row</div><div class="pass-pill" id="pill-p50"></div></div>
       </div>
-      <div class="score-row" id="sb-pitch40"></div>
+      <div class="score-row" id="sb-p50"></div>
+    </div>
+    <div class="dist-group">
+      <div class="dist-group-header">
+        <div><div class="dist-label pitch-color">70 Yards</div><div class="dist-sub">Best streak · within 10 yd · 8 tries</div></div>
+        <div class="dist-right"><div class="dist-max">in a row</div><div class="pass-pill" id="pill-p70"></div></div>
+      </div>
+      <div class="score-row" id="sb-p70"></div>
     </div>
     <button class="submit-btn pitch-submit" onclick="logPitch()">+ LOG PITCHING SESSION</button>
     <div class="toast" id="pitch-toast"></div>
@@ -355,6 +393,32 @@
 
   <!-- ══ STATS ══ -->
   <div class="section" id="sec-stats">
+    <div class="prog-card" style="margin-bottom:16px">
+      <div class="prog-title">📊 Progress Overview</div>
+      <div class="pov-grid">
+        <div class="pov-tile"><div class="pov-num" id="pov-total">0</div><div class="pov-lbl">Total Sessions</div></div>
+        <div class="pov-tile"><div class="pov-num pov-txt" id="pov-most">—</div><div class="pov-lbl">Most Practiced</div></div>
+        <div class="pov-tile"><div class="pov-num" id="pov-days">0</div><div class="pov-lbl">Days Practiced</div></div>
+        <div class="pov-tile"><div class="pov-num" id="pov-xp">0</div><div class="pov-lbl">Practice Points</div></div>
+      </div>
+      <div class="pov-cats">
+        <div class="pov-cat"><span class="pov-cat-ico">🏌️</span><span class="pov-cat-n" id="pov-chip">0</span><span class="pov-cat-l">Chip</span></div>
+        <div class="pov-cat"><span class="pov-cat-ico">🏹</span><span class="pov-cat-n" id="pov-pitch">0</span><span class="pov-cat-l">Pitch</span></div>
+        <div class="pov-cat"><span class="pov-cat-ico">⛳</span><span class="pov-cat-n" id="pov-putt">0</span><span class="pov-cat-l">Putt</span></div>
+        <div class="pov-cat"><span class="pov-cat-ico">🎯</span><span class="pov-cat-n" id="pov-irons">0</span><span class="pov-cat-l">Irons</span></div>
+      </div>
+      <div class="level-hint" id="pov-last" style="text-align:center"></div>
+    </div>
+    <div class="cal-card">
+      <div class="cal-head">
+        <button class="cal-nav" onclick="calMonth(-1)">‹</button>
+        <div class="cal-title" id="cal-title">—</div>
+        <button class="cal-nav" onclick="calMonth(1)">›</button>
+      </div>
+      <div class="cal-dow"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-legend">Less <span class="sw" style="background:#f4f2ec"></span><span class="sw" style="background:#c7e9d4"></span><span class="sw" style="background:#82cfa0"></span><span class="sw" style="background:#40a96b"></span><span class="sw" style="background:#1b7a44"></span> More</div>
+    </div>
     <div class="stats-section-title">🏌️ Chipping</div>
     <div class="stats-grid">
       <div class="stat-box chip-box"><div class="stat-val chip-val" id="st-chip2">—</div><div class="stat-lbl">Best 5yd</div><div class="stat-target" id="tgt-chip2"></div></div>
@@ -363,9 +427,9 @@
     </div>
     <div class="stats-section-title">🏹 Pitching</div>
     <div class="stats-grid">
-      <div class="stat-box pitch-box"><div class="stat-val pitch-val" id="st-p20">—</div><div class="stat-lbl">Best 20yd</div><div class="stat-target" id="tgt-p20"></div></div>
-      <div class="stat-box pitch-box"><div class="stat-val pitch-val" id="st-p40">—</div><div class="stat-lbl">Best 40yd</div><div class="stat-target" id="tgt-p40"></div></div>
-      <div class="stat-box pitch-box"><div class="stat-val pitch-val" id="st-pitch-sess">0</div><div class="stat-lbl">Sessions</div></div>
+      <div class="stat-box pitch-box"><div class="stat-val pitch-val" id="st-p30">—</div><div class="stat-lbl">Best 30yd</div><div class="stat-target" id="tgt-p30"></div></div>
+      <div class="stat-box pitch-box"><div class="stat-val pitch-val" id="st-p50">—</div><div class="stat-lbl">Best 50yd</div><div class="stat-target" id="tgt-p50"></div></div>
+      <div class="stat-box pitch-box"><div class="stat-val pitch-val" id="st-p70">—</div><div class="stat-lbl">Best 70yd</div><div class="stat-target" id="tgt-p70"></div></div>
     </div>
     <div class="stats-section-title">⛳ Putting</div>
     <div class="stats-grid">
@@ -410,11 +474,11 @@
         </div>
       </div>
       <div class="prog-row">
-        <div class="prog-row-left"><div class="prog-label">🏹 Pitching Pass Mark</div><div class="prog-desc">Out of 20 shots</div></div>
+        <div class="prog-row-left"><div class="prog-label">🏹 Pitching Target</div><div class="prog-desc">Shots in a row on target</div></div>
         <div class="prog-controls">
-          <button class="prog-btn" onclick="adjustMark('pitch20',-1)">−</button>
-          <div class="prog-val" id="pv-pitch20">8/20</div>
-          <button class="prog-btn" onclick="adjustMark('pitch20',1)">+</button>
+          <button class="prog-btn" onclick="adjustMark('pitch',-1)">−</button>
+          <div class="prog-val" id="pv-pitch">3</div>
+          <button class="prog-btn" onclick="adjustMark('pitch',1)">+</button>
         </div>
       </div>
       <div class="prog-row">
@@ -508,13 +572,12 @@ if(!data.chip)data.chip=[];if(!data.pitch)data.pitch=[];if(!data.putt)data.putt=
 const IRON_CLUBS=[
   {id:'4i',name:'4 Iron'},{id:'5i',name:'5 Iron'},{id:'6i',name:'6 Iron'},
   {id:'7i',name:'7 Iron'},{id:'8i',name:'8 Iron'},{id:'9i',name:'9 Iron'},
-  {id:'PW',name:'Pitching Wedge'},{id:'GW',name:'Gap Wedge'},
-  {id:'SW',name:'Sand Wedge'},{id:'LW',name:'Lob Wedge'},
+  {id:'PW',name:'Pitching Wedge'},{id:'SW',name:'Sand Wedge'},
 ];
 
 // Pass marks: per-distance for chipping (chip_c2/c5/c10, out of 20), single pitch (out of 20),
 // per-drill for putting (putt_short/lag/mid, out of 10), iron (in a row). Legacy marks auto-migrate.
-let marks = JSON.parse(lsGet('golf_marks','{"chip_c2":8,"chip_c5":8,"chip_c10":8,"pitch20":8,"putt_short":6,"putt_lag":6,"putt_mid":6,"iron":3}'));
+let marks = JSON.parse(lsGet('golf_marks','{"chip_c2":8,"chip_c5":8,"chip_c10":8,"pitch":3,"putt_short":6,"putt_lag":6,"putt_mid":6,"iron":3}'));
 migrateMarks();
 let tempMarks = {...marks};
 
@@ -531,9 +594,9 @@ function migrateMarks(){
   if(marks.chip_c2===undefined)marks.chip_c2=chipBase;
   if(marks.chip_c5===undefined)marks.chip_c5=chipBase;
   if(marks.chip_c10===undefined)marks.chip_c10=chipBase;
-  if(marks.pitch20===undefined)marks.pitch20=8;
+  if(marks.pitch===undefined)marks.pitch=3;
   if(marks.iron===undefined)marks.iron=3;
-  delete marks.putt5;delete marks.putt10;delete marks.chip20;
+  delete marks.putt5;delete marks.putt10;delete marks.chip20;delete marks.pitch20;
   saveMarksToStorage();
 }
 
@@ -542,7 +605,7 @@ function saveMarksToStorage(){ lsSet('golf_marks',JSON.stringify(marks)); }
 
 // ── SELECTION STATE ───────────────────────────────────────────
 let chipSel={c2:null,c5:null,c10:null};
-let pitchSel={p20:null,p40:null};
+let pitchSel={p30:null,p50:null,p70:null};
 let puttSel={short:null,lag:null,mid:null};
 let ironSel={};
 
@@ -553,8 +616,9 @@ window.addEventListener('load',()=>{
   buildGroup('sb-chip2',20,'chip-theme',v=>{chipSel.c2=v;updatePill('pill-chip2',v,marks.chip_c2);});
   buildGroup('sb-chip5',20,'chip-theme',v=>{chipSel.c5=v;updatePill('pill-chip5',v,marks.chip_c5);});
   buildGroup('sb-chip10',20,'chip-theme',v=>{chipSel.c10=v;updatePill('pill-chip10',v,marks.chip_c10);});
-  buildGroup('sb-pitch20',20,'pitch-theme',v=>{pitchSel.p20=v;updatePill('pill-p20',v,marks.pitch20);});
-  buildGroup('sb-pitch40',20,'pitch-theme',v=>{pitchSel.p40=v;updatePill('pill-p40',v,marks.pitch20);});
+  buildGroup('sb-p30',8,'pitch-theme',v=>{pitchSel.p30=v;updatePill('pill-p30',v,marks.pitch);});
+  buildGroup('sb-p50',8,'pitch-theme',v=>{pitchSel.p50=v;updatePill('pill-p50',v,marks.pitch);});
+  buildGroup('sb-p70',8,'pitch-theme',v=>{pitchSel.p70=v;updatePill('pill-p70',v,marks.pitch);});
   buildGroup('sb-putt-short',10,'putt-theme',v=>{puttSel.short=v;updatePill('pill-pshort',v,marks.putt_short);});
   buildGroup('sb-putt-lag',10,'putt-theme',v=>{puttSel.lag=v;updatePill('pill-plag',v,marks.putt_lag);});
   buildGroup('sb-mid',10,'putt-theme',v=>{puttSel.mid=v;updatePill('pill-mid',v,marks.putt_mid);});
@@ -612,16 +676,17 @@ function logChip(){
 
 function logPitch(){
   const date=document.getElementById('pitch-date').value;
-  const sess={id:Date.now(),date,mark:marks.pitch20};
+  const sess={id:Date.now(),date,mark:marks.pitch};
   let any=false;
-  if(pitchSel.p20>0){sess.p20=pitchSel.p20;any=true;}
-  if(pitchSel.p40>0){sess.p40=pitchSel.p40;any=true;}
+  if(pitchSel.p30>0){sess.p30=pitchSel.p30;any=true;}
+  if(pitchSel.p50>0){sess.p50=pitchSel.p50;any=true;}
+  if(pitchSel.p70>0){sess.p70=pitchSel.p70;any=true;}
   if(!any){toast('pitch-toast','Log a score above 0 for at least one distance!',true);return;}
   data.pitch.push(sess);
   data.pitch.sort((a,b)=>a.date.localeCompare(b.date));
-  save();pitchSel={p20:null,p40:null};
-  clearGroup('sb-pitch20');clearGroup('sb-pitch40');
-  ['pill-p20','pill-p40'].forEach(id=>{const e=document.getElementById(id);e.className='pass-pill';e.textContent='';});
+  save();pitchSel={p30:null,p50:null,p70:null};
+  clearGroup('sb-p30');clearGroup('sb-p50');clearGroup('sb-p70');
+  ['pill-p30','pill-p50','pill-p70'].forEach(id=>{const e=document.getElementById(id);e.className='pass-pill';e.textContent='';});
   toast('pitch-toast','✅ Pitching session saved!');render();
 }
 
@@ -737,7 +802,10 @@ function recentRatio(type){
   last5.forEach(s=>{
     let vals;
     if(type==='chip')vals=[s.c2,s.c5,s.c10].filter(v=>v>0).map(v=>v/20);
-    else if(type==='pitch')vals=[s.p20,s.p40].filter(v=>v>0).map(v=>v/20);
+    else if(type==='pitch'){
+      if(s.p30!=null||s.p50!=null||s.p70!=null)vals=[s.p30,s.p50,s.p70].filter(v=>v>0).map(v=>Math.min(v/marks.pitch,1));
+      else vals=[s.p20,s.p40].filter(v=>v>0).map(v=>v/20);
+    }
     else{const den=s.balls||5;const third=s.mid!=null?s.mid:s.updown;vals=[s.short,s.lag,third].filter(v=>v>0).map(v=>v/den);}
     if(vals.length){total+=vals.reduce((a,b)=>a+b,0)/vals.length;n++;}
   });
@@ -801,19 +869,41 @@ function last5Avg(type,field){
 }
 function avgTxt(v){return v===null?'L5 avg —':'L5 avg '+v.toFixed(1);}
 
+// average of a window of sessions for a drill (skip most-recent `skip`, take `take`)
+function windowAvg(type,field,skip,take){
+  const arr=data[type].filter(s=>s[field]>0);
+  const endIdx=arr.length-skip;
+  if(endIdx<=0)return null;
+  const slice=arr.slice(Math.max(0,endIdx-take),endIdx);
+  if(!slice.length)return null;
+  if(type==='putt'){const sum=slice.reduce((a,s)=>a+s[field]/(s.balls||5)*10,0);return sum/slice.length;}
+  const sum=slice.reduce((a,s)=>a+s[field],0);
+  return sum/slice.length;
+}
+
+// trend of last 5 vs previous 5 for a drill → small colored arrow
+function trendArrow(type,field){
+  const cur=windowAvg(type,field,0,5),prev=windowAvg(type,field,5,5);
+  if(cur===null||prev===null)return '';
+  const diff=cur-prev;
+  if(Math.abs(diff)<0.1)return ' <span style="color:#9aa2a6">→</span>';
+  return diff>0?' <span style="color:#22c55e">▲</span>':' <span style="color:#ef4444">▼</span>';
+}
+function setAvg(id,type,field){document.getElementById(id).innerHTML=avgTxt(last5Avg(type,field))+trendArrow(type,field);}
+
 // ── PROGRESSION MARKS ─────────────────────────────────────────
 function refreshMarkUI(){
   tempMarks={...marks};
   document.getElementById('pv-chip_c2').textContent=marks.chip_c2+'/20';
   document.getElementById('pv-chip_c5').textContent=marks.chip_c5+'/20';
   document.getElementById('pv-chip_c10').textContent=marks.chip_c10+'/20';
-  document.getElementById('pv-pitch20').textContent=marks.pitch20+'/20';
+  document.getElementById('pv-pitch').textContent=marks.pitch;
   document.getElementById('pv-putt_short').textContent=marks.putt_short+'/10';
   document.getElementById('pv-putt_lag').textContent=marks.putt_lag+'/10';
   document.getElementById('pv-putt_mid').textContent=marks.putt_mid+'/10';
   document.getElementById('pv-iron').textContent=marks.iron;
   document.getElementById('chip-banner-sub').textContent=`Targets — 5yd ${marks.chip_c2} · 10yd ${marks.chip_c5} · 15yd ${marks.chip_c10} (of 20)`;
-  document.getElementById('pitch-banner-sub').textContent=`Hit ${marks.pitch20}/20 within flagstick length to pass`;
+  document.getElementById('pitch-banner-sub').textContent=`Hit your target ${marks.pitch} times in a row at each distance (within 10 yd)`;
   document.getElementById('putt-banner-sub').textContent=`Targets — Short ${marks.putt_short} · Lag ${marks.putt_lag} · Mid ${marks.putt_mid} (of 10)`;
   document.getElementById('iron-banner-sub').textContent=`Hit your target ${marks.iron} times in a row with each club`;
   updateLevels();
@@ -821,7 +911,7 @@ function refreshMarkUI(){
 
 function adjustMark(key,delta){
   let max=20;
-  if(key==='iron')max=8;
+  if(key==='iron'||key==='pitch')max=8;
   else if(key.startsWith('putt_'))max=10;
   const min=1;
   marks[key]=Math.min(max,Math.max(min,marks[key]+delta));
@@ -840,8 +930,9 @@ const chartDefs=[
   {key:'chip2',label:'Chip 5yd',theme:'chip',max:20,src:'chip',field:'c2'},
   {key:'chip5',label:'Chip 10yd',theme:'chip',max:20,src:'chip',field:'c5'},
   {key:'chip10',label:'Chip 15yd',theme:'chip',max:20,src:'chip',field:'c10'},
-  {key:'p20',label:'Pitch 20yd',theme:'pitch',max:20,src:'pitch',field:'p20'},
-  {key:'p40',label:'Pitch 40yd',theme:'pitch',max:20,src:'pitch',field:'p40'},
+  {key:'p30',label:'Pitch 30yd',theme:'pitch',max:8,src:'pitch',field:'p30'},
+  {key:'p50',label:'Pitch 50yd',theme:'pitch',max:8,src:'pitch',field:'p50'},
+  {key:'p70',label:'Pitch 70yd',theme:'pitch',max:8,src:'pitch',field:'p70'},
   {key:'pshort',label:'Short Putts',theme:'putt',max:10,src:'putt',field:'short'},
   {key:'plag',label:'Lag Putts',theme:'putt',max:10,src:'putt',field:'lag'},
   {key:'mid',label:'Midrange',theme:'putt',max:10,src:'putt',field:'mid'},
@@ -892,7 +983,7 @@ function drawChartInto(inst,svgId){
     const t=svgEl('text');t.setAttribute('x','150');t.setAttribute('y','60');t.setAttribute('text-anchor','middle');t.setAttribute('fill','#bbb');t.setAttribute('font-size','10');t.setAttribute('font-family','Nunito');t.textContent='Log 2+ sessions to see chart';svg.appendChild(t);return;
   }
   const vals=def.compute?arr.map(def.compute):arr.map(s=>def.src==='putt'?s[def.field]/(s.balls||5)*10:s[def.field]);
-  const target=def.targetVal?def.targetVal():(def.src==='putt'?marks['putt_'+def.field]:(def.src==='pitch'?marks.pitch20:marks['chip_'+def.field]));
+  const target=def.targetVal?def.targetVal():(def.src==='putt'?marks['putt_'+def.field]:(def.src==='pitch'?marks.pitch:marks['chip_'+def.field]));
   const colors={chip:'#2d6a4f',pitch:'#7b4f12',putt:'#2e6da4',iron:'#37474f'};
   const dots={chip:'#52b788',pitch:'#c17f3a',putt:'#60a8d0',iron:'#607d8b'};
   const stroke=colors[def.theme];const dot=dots[def.theme];
@@ -926,13 +1017,98 @@ function drawChartInto(inst,svgId){
 function svgEl(tag){return document.createElementNS('http://www.w3.org/2000/svg',tag);}
 
 // ── RENDER ────────────────────────────────────────────────────
-function render(){renderStats();renderHistory();updateLevels();drawAllCharts();}
+function render(){renderStats();renderProgress();renderCalendar();renderHistory();updateLevels();drawAllCharts();}
+
+// ── PRACTICE CALENDAR ─────────────────────────────────────────
+let calDate=new Date();calDate.setDate(1);
+function calMonth(delta){calDate.setMonth(calDate.getMonth()+delta);renderCalendar();}
+function sessionsByDate(){
+  const map={};
+  [...data.chip,...data.pitch,...data.putt,...data.irons].forEach(s=>{map[s.date]=(map[s.date]||0)+1;});
+  return map;
+}
+function renderCalendar(){
+  const grid=document.getElementById('cal-grid');if(!grid)return;
+  const counts=sessionsByDate();
+  const y=calDate.getFullYear(),mo=calDate.getMonth();
+  document.getElementById('cal-title').textContent=calDate.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  const startDow=new Date(y,mo,1).getDay();
+  const daysInMonth=new Date(y,mo+1,0).getDate();
+  const todayStr=new Date().toISOString().split('T')[0];
+  let html='';
+  for(let i=0;i<startDow;i++)html+='<div class="cal-cell empty"></div>';
+  for(let d=1;d<=daysInMonth;d++){
+    const ds=`${y}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const c=counts[ds]||0;
+    let cls='cal-cell';
+    if(c>=4)cls+=' l4';else if(c===3)cls+=' l3';else if(c===2)cls+=' l2';else if(c===1)cls+=' l1';
+    if(ds===todayStr)cls+=' today';
+    html+=`<div class="${cls}">${d}</div>`;
+  }
+  grid.innerHTML=html;
+}
+
+function renderProgress(){
+  const all=[...data.chip,...data.pitch,...data.putt,...data.irons];
+  document.getElementById('pov-total').textContent=all.length;
+  document.getElementById('pov-chip').textContent=data.chip.length;
+  document.getElementById('pov-pitch').textContent=data.pitch.length;
+  document.getElementById('pov-putt').textContent=data.putt.length;
+  document.getElementById('pov-irons').textContent=data.irons.length;
+
+  const dates=[...new Set(all.map(s=>s.date))].sort();
+  document.getElementById('pov-days').textContent=dates.length;
+
+  // most-practiced discipline (by session count)
+  const counts=[['Chip',data.chip.length],['Pitch',data.pitch.length],['Putt',data.putt.length],['Irons',data.irons.length]];
+  const top=counts.reduce((a,b)=>b[1]>a[1]?b:a,['—',0]);
+  document.getElementById('pov-most').textContent=top[1]>0?top[0]:'—';
+
+  // practice points
+  const xp=practiceXP();
+  document.getElementById('pov-xp').textContent=xp>=1000?(xp/1000).toFixed(xp>=10000?0:1)+'k':xp;
+
+  // last practiced
+  const last=document.getElementById('pov-last');
+  if(dates.length){
+    const today=new Date();today.setHours(0,0,0,0);
+    const d=new Date(dates[dates.length-1]+'T00:00:00');
+    const days=Math.round((today-d)/86400000);
+    last.textContent=days<=0?'Last practiced: today':days===1?'Last practiced: yesterday':`Last practiced: ${days} days ago`;
+  }else{last.textContent='No sessions logged yet';}
+}
+
+// Practice Points: +5 for doing a drill, +score for performance, +10 for passing it
+function practiceXP(){
+  let xp=0;
+  const add=(v,m)=>{if(v>0)xp+=5+v+(v>=m?10:0);};
+  data.chip.forEach(s=>{
+    add(s.c2,(s.pm&&s.pm.c2)??s.mark??marks.chip_c2);
+    add(s.c5,(s.pm&&s.pm.c5)??s.mark??marks.chip_c5);
+    add(s.c10,(s.pm&&s.pm.c10)??s.mark??marks.chip_c10);
+  });
+  data.pitch.forEach(s=>{
+    if(s.p30!=null||s.p50!=null||s.p70!=null){const m=s.mark||marks.pitch;add(s.p30,m);add(s.p50,m);add(s.p70,m);}
+    else{const m=s.mark||8;add(s.p20,m);add(s.p40,m);}
+  });
+  data.putt.forEach(s=>{
+    const third=s.mid!=null?s.mid:s.updown;
+    add(s.short,(s.pm&&s.pm.short)??s.mark??marks.putt_short);
+    add(s.lag,(s.pm&&s.pm.lag)??s.mark??marks.putt_lag);
+    add(third,(s.pm&&s.pm.mid)??s.mark??marks.putt_mid);
+  });
+  data.irons.forEach(s=>{const m=s.mark||marks.iron;Object.values(s.clubs).forEach(v=>add(v,m));});
+  return xp;
+}
 
 function best(arr,field){
   const rows=arr.filter(s=>s[field]>0);
   if(!rows.length)return'—';
-  if(['c2','c5','c10','p20','p40'].includes(field)){
+  if(['c2','c5','c10'].includes(field)){
     return Math.max(...rows.map(s=>s[field]))+'/20';
+  }
+  if(['p30','p50','p70'].includes(field)){
+    return Math.max(...rows.map(s=>s[field]))+'/8';
   }
   // putting: normalize legacy /5 sessions onto the /10 scale
   return Math.max(...rows.map(s=>s[field]/(s.balls||5)*10))+'/10';
@@ -942,22 +1118,23 @@ function renderStats(){
   document.getElementById('st-chip2').textContent=best(data.chip,'c2');
   document.getElementById('st-chip5').textContent=best(data.chip,'c5');
   document.getElementById('st-chip10').textContent=best(data.chip,'c10');
-  document.getElementById('st-p20').textContent=best(data.pitch,'p20');
-  document.getElementById('st-p40').textContent=best(data.pitch,'p40');
-  document.getElementById('st-pitch-sess').textContent=data.pitch.length;
+  document.getElementById('st-p30').textContent=best(data.pitch,'p30');
+  document.getElementById('st-p50').textContent=best(data.pitch,'p50');
+  document.getElementById('st-p70').textContent=best(data.pitch,'p70');
   document.getElementById('st-pshort').textContent=best(data.putt,'short');
   document.getElementById('st-plag').textContent=best(data.putt,'lag');
   document.getElementById('st-mid').textContent=best(data.putt,'mid');
 
   // Rolling last-5 averages
-  document.getElementById('tgt-chip2').textContent=avgTxt(last5Avg('chip','c2'));
-  document.getElementById('tgt-chip5').textContent=avgTxt(last5Avg('chip','c5'));
-  document.getElementById('tgt-chip10').textContent=avgTxt(last5Avg('chip','c10'));
-  document.getElementById('tgt-p20').textContent=avgTxt(last5Avg('pitch','p20'));
-  document.getElementById('tgt-p40').textContent=avgTxt(last5Avg('pitch','p40'));
-  document.getElementById('tgt-pshort').textContent=avgTxt(last5Avg('putt','short'));
-  document.getElementById('tgt-plag').textContent=avgTxt(last5Avg('putt','lag'));
-  document.getElementById('tgt-mid').textContent=avgTxt(last5Avg('putt','mid'));
+  setAvg('tgt-chip2','chip','c2');
+  setAvg('tgt-chip5','chip','c5');
+  setAvg('tgt-chip10','chip','c10');
+  setAvg('tgt-p30','pitch','p30');
+  setAvg('tgt-p50','pitch','p50');
+  setAvg('tgt-p70','pitch','p70');
+  setAvg('tgt-pshort','putt','short');
+  setAvg('tgt-plag','putt','lag');
+  setAvg('tgt-mid','putt','mid');
 
   // Irons summary
   let ibest=0;const perClubBest={};
@@ -975,7 +1152,7 @@ function passClass(val,target){return val>=target?'p':'f';}
 
 function getBadge(s,type){
   if(type==='chip'){const t=s.c2+s.c5+s.c10;const m2=(s.pm&&s.pm.c2)||marks.chip_c2;if(t>=54)return'🔥 Elite Chipper';if(t>=45)return'⭐ Great Session';if(s.c2>=m2*1.5)return'🎯 Crushing It';}
-  if(type==='pitch'){if(s.p20>=18&&s.p40>=18)return'🔥 Elite Pitcher';if(s.p20+s.p40>=32)return'⭐ Strong Pitching';}
+  if(type==='pitch'){const vals=[s.p30,s.p50,s.p70].filter(v=>v>0);const m=s.mark||marks.pitch;const passed=vals.filter(v=>v>=m).length;if(vals.length>=3&&passed===vals.length)return'🔥 Elite Pitcher';if(passed>=2)return'⭐ Strong Pitching';}
   if(type==='putt'){const b=s.balls||5;const third=s.mid!=null?s.mid:s.updown;if(s.short/b>=1&&third/b>=0.8)return'💫 Putting Machine';if(third/b>=0.8)return'🎯 Clutch Putter';}
   if(type==='irons'){const vals=Object.values(s.clubs).filter(v=>v>0);const m=s.mark||marks.iron;const passed=vals.filter(v=>v>=m).length;if(vals.length>=6&&passed===vals.length)return'🔥 Whole Bag Dialed';if(passed>=5)return'⭐ Dialed In';}
   return null;
@@ -994,7 +1171,7 @@ function renderHistory(){
 
   hist.innerHTML=all.map(s=>{
     const badge=getBadge(s,s.type);
-    const pm=s.mark||marks.pitch20;const pballs=s.balls||5;
+    const pballs=s.balls||5;
     const cm2=(s.pm&&s.pm.c2)??s.mark??marks.chip_c2;
     const cm5=(s.pm&&s.pm.c5)??s.mark??marks.chip_c5;
     const cm10=(s.pm&&s.pm.c10)??s.mark??marks.chip_c10;
@@ -1007,10 +1184,18 @@ function renderHistory(){
         .filter(d=>d.v>0).map(d=>`<div class="hist-score-cell"><div class="hsc-val">${d.v}/20</div><div class="hsc-lbl">${d.lbl}</div><div class="hsc-status ${passClass(d.v,d.m)}">${passStatus(d.v,d.m)}</div></div>`).join('');
       scoresHtml=`<div class="hist-section"><span class="hist-section-lbl chip">🏌️ Chipping</span><div class="hist-scores-grid">${cells}</div></div>`;
     }else if(s.type==='pitch'){
-      let cells=[{v:s.p20,lbl:'20 Yards'},{v:s.p40,lbl:'40 Yards'}]
-        .filter(d=>d.v>0).map(d=>`<div class="hist-score-cell"><div class="hsc-val pv">${d.v}/20</div><div class="hsc-lbl">${d.lbl}</div><div class="hsc-status ${passClass(d.v,pm)}">${passStatus(d.v,pm)}</div></div>`).join('');
-      if(s.p20>0&&s.p40>0)cells+=`<div class="hist-score-cell"><div class="hsc-val pv">${s.p20+s.p40}/40</div><div class="hsc-lbl">Total</div></div>`;
-      scoresHtml=`<div class="hist-section"><span class="hist-section-lbl pitch">🏹 Pitching</span><div class="hist-scores-grid">${cells}</div></div>`;
+      if(s.p30!=null||s.p50!=null||s.p70!=null){
+        const ptm=s.mark||marks.pitch;
+        const cells=[{v:s.p30,lbl:'30 Yards'},{v:s.p50,lbl:'50 Yards'},{v:s.p70,lbl:'70 Yards'}]
+          .filter(d=>d.v>0).map(d=>`<div class="hist-score-cell"><div class="hsc-val pv">${d.v}/8</div><div class="hsc-lbl">${d.lbl}</div><div class="hsc-status ${passClass(d.v,ptm)}">${passStatus(d.v,ptm)}</div></div>`).join('');
+        scoresHtml=`<div class="hist-section"><span class="hist-section-lbl pitch">🏹 Pitching · ${ptm} in a row</span><div class="hist-scores-grid">${cells}</div></div>`;
+      }else{
+        const lm=s.mark||8;
+        let cells=[{v:s.p20,lbl:'20 Yards'},{v:s.p40,lbl:'40 Yards'}]
+          .filter(d=>d.v>0).map(d=>`<div class="hist-score-cell"><div class="hsc-val pv">${d.v}/20</div><div class="hsc-lbl">${d.lbl}</div><div class="hsc-status ${passClass(d.v,lm)}">${passStatus(d.v,lm)}</div></div>`).join('');
+        if(s.p20>0&&s.p40>0)cells+=`<div class="hist-score-cell"><div class="hsc-val pv">${s.p20+s.p40}/40</div><div class="hsc-lbl">Total</div></div>`;
+        scoresHtml=`<div class="hist-section"><span class="hist-section-lbl pitch">🏹 Pitching (old drill)</span><div class="hist-scores-grid">${cells}</div></div>`;
+      }
     }else if(s.type==='putt'){
       const thirdVal=s.mid!=null?s.mid:s.updown;
       const thirdLbl=s.mid!=null?'Mid':'U&D';

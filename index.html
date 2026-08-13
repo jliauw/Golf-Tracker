@@ -155,8 +155,11 @@
   .cal-nav:active{background:#f0ece2;}
   .cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:5px;}
   .cal-dow span{text-align:center;font-size:0.54rem;font-weight:800;color:var(--muted);text-transform:uppercase;}
-  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
-  .cal-cell{height:34px;min-width:0;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#b9b3a4;background:#f4f2ec;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:36px;gap:3px;align-content:start;}
+  .cal-cell{position:relative;min-width:0;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#b9b3a4;background:#f4f2ec;}
+  .cal-cell:not(.empty){cursor:pointer;}
+  .cal-cell:not(.empty):active{filter:brightness(0.94);}
+  .cal-cell.has-round::after{content:'';position:absolute;bottom:3px;right:3px;width:5px;height:5px;border-radius:50%;background:var(--gold);}
   .cal-cell.empty{background:transparent;}
   .cal-cell.l1{background:#c7e9d4;color:var(--g1);}
   .cal-cell.l2{background:#82cfa0;color:var(--g1);}
@@ -165,6 +168,27 @@
   .cal-cell.today{box-shadow:inset 0 0 0 2px var(--gold);}
   .cal-legend{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:5px;margin-top:10px;font-size:0.56rem;color:var(--muted);font-weight:700;}
   .cal-legend .sw{width:13px;height:13px;border-radius:3px;display:inline-block;flex:none;}
+
+  /* DAY DETAIL SHEET */
+  .day-modal{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:none;align-items:flex-end;}
+  .day-modal.show{display:flex;}
+  .day-sheet{background:var(--cream);width:100%;max-height:76vh;overflow-y:auto;border-radius:20px 20px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,0.3);animation:sheetUp 0.22s ease;}
+  @keyframes sheetUp{from{transform:translateY(30px);opacity:0.5;}to{transform:none;opacity:1;}}
+  .day-sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+  .day-sheet-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px;color:var(--g1);}
+  .day-close{background:none;border:none;font-size:1.2rem;color:#aaa;cursor:pointer;padding:4px 8px;}
+  .day-item{background:var(--white);border-radius:12px;padding:11px 13px;margin-bottom:8px;box-shadow:var(--card-shadow);display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+  .di-main{font-weight:800;font-size:0.82rem;color:var(--text);}
+  .di-sub{font-size:0.72rem;color:var(--muted);font-weight:600;margin-top:2px;}
+  .di-round{border-left:3px solid var(--gold);}
+  .round-del{background:none;border:none;color:#ccc;font-size:0.95rem;cursor:pointer;padding:2px 4px;flex:none;}
+  .round-del:active{color:var(--red);}
+  .day-empty{text-align:center;color:var(--muted);font-size:0.8rem;padding:18px 8px;line-height:1.5;}
+  .day-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+  .day-add{border:none;border-radius:12px;padding:13px 8px;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1px;cursor:pointer;color:#fff;}
+  .day-add:active{opacity:0.9;}
+  .day-add.pnp{background:linear-gradient(135deg,var(--putt2),var(--putt));}
+  .day-add.full{background:linear-gradient(135deg,var(--g3),var(--g2));}
   .prog-save-btn{width:100%;background:var(--gold);color:var(--g1);border:none;border-radius:10px;padding:12px;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;cursor:pointer;margin-top:14px;transition:opacity 0.2s;}
   .prog-save-btn:hover{opacity:0.85;}
 
@@ -560,14 +584,29 @@
   <button class="bnav-btn" onclick="showSection('hist',this)"><span class="ico">🗓</span><span class="lbl">History</span></button>
 </div>
 
+<!-- DAY DETAIL SHEET -->
+<div class="day-modal" id="day-modal" onclick="if(event.target===this)closeDayModal()">
+  <div class="day-sheet">
+    <div class="day-sheet-head">
+      <div class="day-sheet-title" id="day-modal-title">Day</div>
+      <button class="day-close" onclick="closeDayModal()">✕</button>
+    </div>
+    <div id="day-modal-body"></div>
+    <div class="day-actions">
+      <button class="day-add pnp" onclick="addRound('pnp')">⛳ Pitch &amp; Putt</button>
+      <button class="day-add full" onclick="addRound('full')">🏌️ Full Round</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ── SAFE STORAGE (works on your phone; degrades gracefully if storage is blocked) ──
 function lsGet(k,def){try{const v=localStorage.getItem(k);return v===null?def:v;}catch(e){return def;}}
 function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
 
 // ── DATA ──────────────────────────────────────────────────────
-let data = JSON.parse(lsGet('golf_v3','{"chip":[],"pitch":[],"putt":[],"irons":[]}'));
-if(!data.chip)data.chip=[];if(!data.pitch)data.pitch=[];if(!data.putt)data.putt=[];if(!data.irons)data.irons=[];
+let data = JSON.parse(lsGet('golf_v3','{"chip":[],"pitch":[],"putt":[],"irons":[],"rounds":[]}'));
+if(!data.chip)data.chip=[];if(!data.pitch)data.pitch=[];if(!data.putt)data.putt=[];if(!data.irons)data.irons=[];if(!data.rounds)data.rounds=[];
 
 const IRON_CLUBS=[
   {id:'4i',name:'4 Iron'},{id:'5i',name:'5 Iron'},{id:'6i',name:'6 Iron'},
@@ -777,7 +816,7 @@ function importData(ev){
       const d=parsed.data;
       if(!d||!Array.isArray(d.chip)||!Array.isArray(d.pitch)||!Array.isArray(d.putt)){throw new Error('bad');}
       if(!confirm('This will REPLACE your current data with the backup. Continue?')){ev.target.value='';return;}
-      data={chip:d.chip||[],pitch:d.pitch||[],putt:d.putt||[],irons:d.irons||[]};
+      data={chip:d.chip||[],pitch:d.pitch||[],putt:d.putt||[],irons:d.irons||[],rounds:d.rounds||[]};
       data.chip.sort((a,b)=>a.date.localeCompare(b.date));
       data.pitch.sort((a,b)=>a.date.localeCompare(b.date));
       data.putt.sort((a,b)=>a.date.localeCompare(b.date));
@@ -1024,12 +1063,13 @@ let calDate=new Date();calDate.setDate(1);
 function calMonth(delta){calDate.setMonth(calDate.getMonth()+delta);renderCalendar();}
 function sessionsByDate(){
   const map={};
-  [...data.chip,...data.pitch,...data.putt,...data.irons].forEach(s=>{map[s.date]=(map[s.date]||0)+1;});
+  [...data.chip,...data.pitch,...data.putt,...data.irons,...(data.rounds||[])].forEach(s=>{map[s.date]=(map[s.date]||0)+1;});
   return map;
 }
 function renderCalendar(){
   const grid=document.getElementById('cal-grid');if(!grid)return;
   const counts=sessionsByDate();
+  const roundDates=new Set((data.rounds||[]).map(r=>r.date));
   const y=calDate.getFullYear(),mo=calDate.getMonth();
   document.getElementById('cal-title').textContent=calDate.toLocaleDateString('en-US',{month:'long',year:'numeric'});
   const startDow=new Date(y,mo,1).getDay();
@@ -1043,9 +1083,69 @@ function renderCalendar(){
     let cls='cal-cell';
     if(c>=4)cls+=' l4';else if(c===3)cls+=' l3';else if(c===2)cls+=' l2';else if(c===1)cls+=' l1';
     if(ds===todayStr)cls+=' today';
-    html+=`<div class="${cls}">${d}</div>`;
+    if(roundDates.has(ds))cls+=' has-round';
+    html+=`<div class="${cls}" onclick="openDayModal('${ds}')">${d}</div>`;
   }
   grid.innerHTML=html;
+}
+
+// ── DAY DETAIL + ROUNDS ───────────────────────────────────────
+let modalDate=null;
+function openDayModal(ds){modalDate=ds;renderDayModal();document.getElementById('day-modal').classList.add('show');}
+function closeDayModal(){document.getElementById('day-modal').classList.remove('show');modalDate=null;}
+
+function addRound(type){
+  if(!modalDate)return;
+  let score=null;
+  try{
+    const inp=prompt('Score for this round? (optional — leave blank to skip)');
+    if(inp===null)return; // cancelled
+    const t=String(inp).trim();
+    if(t!==''&&!isNaN(Number(t)))score=Number(t);
+  }catch(e){/* prompt unavailable — log without score */}
+  const r={id:Date.now(),date:modalDate,type};
+  if(score!=null)r.score=score;
+  data.rounds.push(r);
+  data.rounds.sort((a,b)=>a.date.localeCompare(b.date));
+  save();renderDayModal();render();
+}
+function delRound(id){
+  if(!confirm('Remove this round?'))return;
+  data.rounds=data.rounds.filter(r=>r.id!==id);
+  save();renderDayModal();render();
+}
+function dayItem(title,sub){return `<div class="day-item"><div><div class="di-main">${title}</div><div class="di-sub">${sub}</div></div></div>`;}
+
+function renderDayModal(){
+  document.getElementById('day-modal-title').textContent=fmtDate(modalDate);
+  const body=document.getElementById('day-modal-body');
+  let html='';
+  (data.rounds||[]).filter(r=>r.date===modalDate).forEach(r=>{
+    const name=r.type==='full'?'🏌️ Full Round':'⛳ Pitch & Putt';
+    const sc=r.score!=null?`Score ${r.score}`:'Played';
+    html+=`<div class="day-item di-round"><div><div class="di-main">${name}</div><div class="di-sub">${sc}</div></div><button class="round-del" onclick="delRound(${r.id})">✕</button></div>`;
+  });
+  data.chip.filter(s=>s.date===modalDate).forEach(s=>{
+    const parts=[['5yd',s.c2],['10yd',s.c5],['15yd',s.c10]].filter(p=>p[1]>0).map(p=>`${p[0]} ${p[1]}`).join(' · ');
+    html+=dayItem('🏌️ Chipping',parts+' /20');
+  });
+  data.pitch.filter(s=>s.date===modalDate).forEach(s=>{
+    let parts;
+    if(s.p30!=null||s.p50!=null||s.p70!=null)parts=[['30yd',s.p30],['50yd',s.p50],['70yd',s.p70]].filter(p=>p[1]>0).map(p=>`${p[0]} ${p[1]}`).join(' · ')+' in a row';
+    else parts=[['20yd',s.p20],['40yd',s.p40]].filter(p=>p[1]>0).map(p=>`${p[0]} ${p[1]}`).join(' · ')+' /20';
+    html+=dayItem('🏹 Pitching',parts);
+  });
+  data.putt.filter(s=>s.date===modalDate).forEach(s=>{
+    const third=s.mid!=null?['Mid',s.mid]:(s.updown!=null?['U&D',s.updown]:null);
+    const parts=[['Short',s.short],third,['Lag',s.lag]].filter(p=>p&&p[1]>0).map(p=>`${p[0]} ${p[1]}`).join(' · ');
+    html+=dayItem('⛳ Putting',parts+` /${s.balls||5}`);
+  });
+  data.irons.filter(s=>s.date===modalDate).forEach(s=>{
+    const parts=IRON_CLUBS.filter(c=>s.clubs[c.id]>0).map(c=>`${c.id} ${s.clubs[c.id]}`).join(' · ');
+    html+=dayItem('🎯 Irons',parts+' in a row');
+  });
+  if(!html)html='<div class="day-empty">Nothing logged this day yet.<br>Add a round below, or log practice from the tabs.</div>';
+  body.innerHTML=html;
 }
 
 function renderProgress(){

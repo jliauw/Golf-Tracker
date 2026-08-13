@@ -28,6 +28,15 @@
 
   .app-body{background:var(--cream);padding:16px 14px 80px;}
 
+  /* BACKUP REMINDER BAR */
+  .backup-bar{display:none;align-items:center;gap:9px;background:#fef3c7;border:1px solid #fcd34d;border-radius:12px;padding:10px 12px;margin-bottom:14px;}
+  .backup-bar.show{display:flex;}
+  .bb-ico{font-size:1rem;flex:none;}
+  .bb-text{flex:1;font-size:0.7rem;font-weight:700;color:#8a5a09;line-height:1.35;}
+  .bb-btn{border:none;background:var(--gold);color:var(--g1);font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:1px;padding:7px 14px;border-radius:8px;cursor:pointer;flex:none;}
+  .bb-btn:active{opacity:0.85;}
+  .bb-x{background:none;border:none;color:#c19a3f;font-size:0.9rem;cursor:pointer;padding:2px 4px;flex:none;}
+
   /* BOTTOM NAV */
   .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--g1);display:grid;grid-template-columns:repeat(6,1fr);padding:8px 4px 12px;gap:2px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.3);}
   .bnav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:6px 2px;border-radius:10px;transition:background 0.15s;}
@@ -260,6 +269,13 @@
 </div>
 
 <div class="app-body">
+
+  <div class="backup-bar" id="backup-bar">
+    <span class="bb-ico">⚠️</span>
+    <span class="bb-text" id="backup-bar-text">Back up your data</span>
+    <button class="bb-btn" onclick="exportData()">Export</button>
+    <button class="bb-x" onclick="dismissBackup()">✕</button>
+  </div>
 
   <!-- ══ CHIPPING ══ -->
   <div class="section" id="sec-chip">
@@ -556,6 +572,7 @@
       <button class="backup-btn exp" onclick="exportData()">⬇ EXPORT DATA</button>
       <button class="backup-btn imp" onclick="document.getElementById('importFile').click()">⬆ IMPORT DATA</button>
       <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="importData(event)">
+      <div class="level-hint" id="backup-status" style="text-align:center;margin-top:10px"></div>
       <div class="toast" id="backup-toast" style="color:var(--gold2)"></div>
     </div>
 
@@ -641,7 +658,7 @@ function migrateMarks(){
   saveMarksToStorage();
 }
 
-function save(){ lsSet('golf_v3',JSON.stringify(data)); }
+function save(){ lsSet('golf_v3',JSON.stringify(data)); backupDismissed=false; }
 function saveMarksToStorage(){ lsSet('golf_marks',JSON.stringify(marks)); }
 
 // ── SELECTION STATE ───────────────────────────────────────────
@@ -649,10 +666,14 @@ let chipSel={c2:null,c5:null,c10:null};
 let pitchSel={p30:null,p50:null,p70:null};
 let puttSel={short:null,lag:null,mid:null};
 let ironSel={};
+let backupDismissed=false;
+
+// local (not UTC) YYYY-MM-DD — avoids the evening timezone rollover bug
+function localDateStr(d){d=d||new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 
 // ── INIT ──────────────────────────────────────────────────────
 window.addEventListener('load',()=>{
-  const today=new Date().toISOString().split('T')[0];
+  const today=localDateStr();
   ['chip-date','pitch-date','putt-date','iron-date'].forEach(id=>document.getElementById(id).value=today);
   buildGroup('sb-chip2',20,'chip-theme',v=>{chipSel.c2=v;updatePill('pill-chip2',v,marks.chip_c2);});
   buildGroup('sb-chip5',20,'chip-theme',v=>{chipSel.c5=v;updatePill('pill-chip5',v,marks.chip_c5);});
@@ -797,14 +818,50 @@ function delSession(type,id){
 }
 
 // ── BACKUP / RESTORE ──────────────────────────────────────────
+function totalActivity(){return data.chip.length+data.pitch.length+data.putt.length+data.irons.length+(data.rounds?data.rounds.length:0);}
+function backupInfo(){try{return JSON.parse(lsGet('golf_backup','null'));}catch(e){return null;}}
+
+function markBackedUp(){
+  lsSet('golf_backup',JSON.stringify({time:Date.now(),count:totalActivity()}));
+  backupDismissed=false;
+  updateBackupBar();
+}
+
+function updateBackupBar(){
+  const bar=document.getElementById('backup-bar');if(!bar)return;
+  const info=backupInfo();
+  const total=totalActivity();
+  const saved=info?info.count:0;
+  const unsaved=total-saved;
+  // reminder bar (top of every tab)
+  if(total>0&&unsaved>0&&!backupDismissed){
+    const t=document.getElementById('backup-bar-text');
+    t.textContent=info?`${unsaved} session${unsaved>1?'s':''} since your last backup — export to keep them safe.`
+                       :`${total} session${total>1?'s':''} logged and not backed up yet. Tap Export to protect them.`;
+    bar.classList.add('show');
+  }else{bar.classList.remove('show');}
+  // status line in the Backup card
+  const st=document.getElementById('backup-status');
+  if(st){
+    if(!info)st.textContent='⚠️ Never backed up yet';
+    else{
+      const days=Math.floor((Date.now()-info.time)/86400000);
+      const when=days<=0?'today':days===1?'yesterday':`${days} days ago`;
+      st.textContent=unsaved>0?`Last backup ${when} · ${unsaved} new since`:`✓ All backed up (${when})`;
+    }
+  }
+}
+function dismissBackup(){backupDismissed=true;updateBackupBar();}
+
 function exportData(){
   const payload={app:'golf-tracker',version:3,exported:new Date().toISOString(),data,marks};
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url;a.download='golf-backup-'+new Date().toISOString().split('T')[0]+'.json';
+  a.href=url;a.download='golf-backup-'+localDateStr()+'.json';
   document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
+  markBackedUp();
   toast('backup-toast','✅ Backup downloaded!');
 }
 
@@ -824,7 +881,7 @@ function importData(ev){
       data.putt.sort((a,b)=>a.date.localeCompare(b.date));
       data.irons.sort((a,b)=>a.date.localeCompare(b.date));
       if(parsed.marks&&(parsed.marks.chip_c2||parsed.marks.chip20)){marks=parsed.marks;migrateMarks();}
-      save();refreshMarkUI();render();
+      save();markBackedUp();refreshMarkUI();render();
       toast('backup-toast','✅ Data restored!');
     }catch(err){
       toast('backup-toast','❌ Invalid backup file',true);
@@ -1058,7 +1115,7 @@ function drawChartInto(inst,svgId){
 function svgEl(tag){return document.createElementNS('http://www.w3.org/2000/svg',tag);}
 
 // ── RENDER ────────────────────────────────────────────────────
-function render(){renderStats();renderProgress();renderCalendar();renderHistory();updateLevels();drawAllCharts();}
+function render(){renderStats();renderProgress();renderCalendar();renderHistory();updateLevels();drawAllCharts();updateBackupBar();}
 
 // ── PRACTICE CALENDAR ─────────────────────────────────────────
 let calDate=new Date();calDate.setDate(1);
@@ -1080,7 +1137,7 @@ function renderCalendar(){
   document.getElementById('cal-title').textContent=calDate.toLocaleDateString('en-US',{month:'long',year:'numeric'});
   const startDow=new Date(y,mo,1).getDay();
   const daysInMonth=new Date(y,mo+1,0).getDate();
-  const todayStr=new Date().toISOString().split('T')[0];
+  const todayStr=localDateStr();
   // build a flat list of cells (leading blanks + days + trailing blanks to fill the week)
   const cells=[];
   for(let i=0;i<startDow;i++)cells.push(null);

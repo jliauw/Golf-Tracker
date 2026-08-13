@@ -148,22 +148,21 @@
   .pov-cat-l{font-size:0.52rem;text-transform:uppercase;letter-spacing:0.4px;color:var(--g4);font-weight:700;}
 
   /* PRACTICE CALENDAR */
-  .cal-card{background:var(--white);border-radius:16px;padding:14px;margin-bottom:16px;box-shadow:var(--card-shadow);overflow:hidden;}
+  .cal-card{background:var(--white);border-radius:16px;padding:14px 12px;margin-bottom:16px;box-shadow:var(--card-shadow);overflow:hidden;}
   .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
   .cal-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:1px;color:var(--g1);}
   .cal-nav{width:30px;height:30px;border-radius:50%;border:1.5px solid #e4e0d6;background:transparent;color:var(--g2);font-size:1.1rem;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;padding:0;}
   .cal-nav:active{background:#f0ece2;}
-  .cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:5px;}
+  .cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;}
   .cal-dow span{text-align:center;font-size:0.54rem;font-weight:800;color:var(--muted);text-transform:uppercase;}
   .cal-grid{display:block;}
-  .cal-week{display:flex;gap:3px;margin-bottom:3px;}
+  .cal-week{display:flex;gap:3px;margin-bottom:3px;height:30px;}
   .cal-week:last-child{margin-bottom:0;}
-  .cal-cell{flex:1;height:36px;position:relative;min-width:0;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#b9b3a4;background:#f4f2ec;}
+  .cal-cell{flex:1 1 0;height:30px;position:relative;min-width:0;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:#b9b3a4;background:#f4f2ec;}
   .cal-cell.empty{background:transparent;pointer-events:none;}
   .cal-cell:not(.empty){cursor:pointer;}
   .cal-cell:not(.empty):active{filter:brightness(0.9);}
-  .cal-cell.has-round::after{content:'';position:absolute;bottom:3px;right:3px;width:5px;height:5px;border-radius:50%;background:var(--gold);}
-  .cal-cell.empty{background:transparent;}
+  .cal-cell.has-round::after{content:'';position:absolute;bottom:2px;right:2px;width:4px;height:4px;border-radius:50%;background:var(--gold);}
   .cal-cell.l1{background:#c7e9d4;color:var(--g1);}
   .cal-cell.l2{background:#82cfa0;color:var(--g1);}
   .cal-cell.l3{background:#40a96b;color:#fff;}

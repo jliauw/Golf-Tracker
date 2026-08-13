@@ -155,10 +155,13 @@
   .cal-nav:active{background:#f0ece2;}
   .cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:5px;}
   .cal-dow span{text-align:center;font-size:0.54rem;font-weight:800;color:var(--muted);text-transform:uppercase;}
-  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:36px;gap:3px;align-content:start;}
-  .cal-cell{position:relative;min-width:0;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#b9b3a4;background:#f4f2ec;}
+  .cal-grid{display:block;}
+  .cal-week{display:flex;gap:3px;margin-bottom:3px;}
+  .cal-week:last-child{margin-bottom:0;}
+  .cal-cell{flex:1;height:36px;position:relative;min-width:0;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#b9b3a4;background:#f4f2ec;}
+  .cal-cell.empty{background:transparent;pointer-events:none;}
   .cal-cell:not(.empty){cursor:pointer;}
-  .cal-cell:not(.empty):active{filter:brightness(0.94);}
+  .cal-cell:not(.empty):active{filter:brightness(0.9);}
   .cal-cell.has-round::after{content:'';position:absolute;bottom:3px;right:3px;width:5px;height:5px;border-radius:50%;background:var(--gold);}
   .cal-cell.empty{background:transparent;}
   .cal-cell.l1{background:#c7e9d4;color:var(--g1);}
@@ -260,7 +263,7 @@
 <div class="app-body">
 
   <!-- ══ CHIPPING ══ -->
-  <div class="section active" id="sec-chip">
+  <div class="section" id="sec-chip">
     <div class="sec-chip">🏌️ Chipping — from the fringe</div>
     <div class="pass-banner chip-banner" id="chip-banner">
       <div class="banner-left">
@@ -348,7 +351,7 @@
   </div>
 
   <!-- ══ PUTTING ══ -->
-  <div class="section" id="sec-putt">
+  <div class="section active" id="sec-putt">
     <div class="sec-chip" style="background:var(--putt2)">⛳ Putting</div>
     <div class="pass-banner putt-banner">
       <div class="banner-left">
@@ -474,6 +477,30 @@
       <div class="prog-sub">Adjust your pass marks as you improve. Bump the target up when you're consistently passing!</div>
 
       <div class="prog-row">
+        <div class="prog-row-left"><div class="prog-label">⛳ Short Putts</div><div class="prog-desc">Out of 10 shots</div></div>
+        <div class="prog-controls">
+          <button class="prog-btn" onclick="adjustMark('putt_short',-1)">−</button>
+          <div class="prog-val" id="pv-putt_short">6/10</div>
+          <button class="prog-btn" onclick="adjustMark('putt_short',1)">+</button>
+        </div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-row-left"><div class="prog-label">⛳ Midrange Putts</div><div class="prog-desc">Out of 10 shots</div></div>
+        <div class="prog-controls">
+          <button class="prog-btn" onclick="adjustMark('putt_mid',-1)">−</button>
+          <div class="prog-val" id="pv-putt_mid">6/10</div>
+          <button class="prog-btn" onclick="adjustMark('putt_mid',1)">+</button>
+        </div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-row-left"><div class="prog-label">⛳ Lag Putts</div><div class="prog-desc">Out of 10 shots</div></div>
+        <div class="prog-controls">
+          <button class="prog-btn" onclick="adjustMark('putt_lag',-1)">−</button>
+          <div class="prog-val" id="pv-putt_lag">6/10</div>
+          <button class="prog-btn" onclick="adjustMark('putt_lag',1)">+</button>
+        </div>
+      </div>
+      <div class="prog-row">
         <div class="prog-row-left"><div class="prog-label">🏌️ Chip 5 yd</div><div class="prog-desc">Out of 20 shots</div></div>
         <div class="prog-controls">
           <button class="prog-btn" onclick="adjustMark('chip_c2',-1)">−</button>
@@ -503,30 +530,6 @@
           <button class="prog-btn" onclick="adjustMark('pitch',-1)">−</button>
           <div class="prog-val" id="pv-pitch">3</div>
           <button class="prog-btn" onclick="adjustMark('pitch',1)">+</button>
-        </div>
-      </div>
-      <div class="prog-row">
-        <div class="prog-row-left"><div class="prog-label">⛳ Short Putts</div><div class="prog-desc">Out of 10 shots</div></div>
-        <div class="prog-controls">
-          <button class="prog-btn" onclick="adjustMark('putt_short',-1)">−</button>
-          <div class="prog-val" id="pv-putt_short">6/10</div>
-          <button class="prog-btn" onclick="adjustMark('putt_short',1)">+</button>
-        </div>
-      </div>
-      <div class="prog-row">
-        <div class="prog-row-left"><div class="prog-label">⛳ Lag Putts</div><div class="prog-desc">Out of 10 shots</div></div>
-        <div class="prog-controls">
-          <button class="prog-btn" onclick="adjustMark('putt_lag',-1)">−</button>
-          <div class="prog-val" id="pv-putt_lag">6/10</div>
-          <button class="prog-btn" onclick="adjustMark('putt_lag',1)">+</button>
-        </div>
-      </div>
-      <div class="prog-row">
-        <div class="prog-row-left"><div class="prog-label">⛳ Midrange Putts</div><div class="prog-desc">Out of 10 shots</div></div>
-        <div class="prog-controls">
-          <button class="prog-btn" onclick="adjustMark('putt_mid',-1)">−</button>
-          <div class="prog-val" id="pv-putt_mid">6/10</div>
-          <button class="prog-btn" onclick="adjustMark('putt_mid',1)">+</button>
         </div>
       </div>
       <div class="prog-row">
@@ -576,9 +579,9 @@
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
-  <button class="bnav-btn active" onclick="showSection('chip',this)"><span class="ico">🏌️</span><span class="lbl">Chip</span></button>
+  <button class="bnav-btn active" onclick="showSection('putt',this)"><span class="ico">⛳</span><span class="lbl">Putt</span></button>
+  <button class="bnav-btn" onclick="showSection('chip',this)"><span class="ico">🏌️</span><span class="lbl">Chip</span></button>
   <button class="bnav-btn" onclick="showSection('pitch',this)"><span class="ico">🏹</span><span class="lbl">Pitch</span></button>
-  <button class="bnav-btn" onclick="showSection('putt',this)"><span class="ico">⛳</span><span class="lbl">Putt</span></button>
   <button class="bnav-btn" onclick="showSection('irons',this)"><span class="ico">🎯</span><span class="lbl">Irons</span></button>
   <button class="bnav-btn" onclick="showSection('stats',this)"><span class="ico">📈</span><span class="lbl">Stats</span></button>
   <button class="bnav-btn" onclick="showSection('hist',this)"><span class="ico">🗓</span><span class="lbl">History</span></button>
@@ -1068,6 +1071,10 @@ function sessionsByDate(){
 }
 function renderCalendar(){
   const grid=document.getElementById('cal-grid');if(!grid)return;
+  if(!grid._bound){
+    grid._bound=true;
+    grid.addEventListener('click',e=>{const c=e.target.closest('.cal-cell');if(c&&c.dataset.date)openDayModal(c.dataset.date);});
+  }
   const counts=sessionsByDate();
   const roundDates=new Set((data.rounds||[]).map(r=>r.date));
   const y=calDate.getFullYear(),mo=calDate.getMonth();
@@ -1075,16 +1082,26 @@ function renderCalendar(){
   const startDow=new Date(y,mo,1).getDay();
   const daysInMonth=new Date(y,mo+1,0).getDate();
   const todayStr=new Date().toISOString().split('T')[0];
+  // build a flat list of cells (leading blanks + days + trailing blanks to fill the week)
+  const cells=[];
+  for(let i=0;i<startDow;i++)cells.push(null);
+  for(let d=1;d<=daysInMonth;d++)cells.push(d);
+  while(cells.length%7!==0)cells.push(null);
   let html='';
-  for(let i=0;i<startDow;i++)html+='<div class="cal-cell empty"></div>';
-  for(let d=1;d<=daysInMonth;d++){
-    const ds=`${y}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const c=counts[ds]||0;
-    let cls='cal-cell';
-    if(c>=4)cls+=' l4';else if(c===3)cls+=' l3';else if(c===2)cls+=' l2';else if(c===1)cls+=' l1';
-    if(ds===todayStr)cls+=' today';
-    if(roundDates.has(ds))cls+=' has-round';
-    html+=`<div class="${cls}" onclick="openDayModal('${ds}')">${d}</div>`;
+  for(let w=0;w<cells.length/7;w++){
+    html+='<div class="cal-week">';
+    for(let i=0;i<7;i++){
+      const d=cells[w*7+i];
+      if(d===null){html+='<div class="cal-cell empty"></div>';continue;}
+      const ds=`${y}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const c=counts[ds]||0;
+      let cls='cal-cell';
+      if(c>=4)cls+=' l4';else if(c===3)cls+=' l3';else if(c===2)cls+=' l2';else if(c===1)cls+=' l1';
+      if(ds===todayStr)cls+=' today';
+      if(roundDates.has(ds))cls+=' has-round';
+      html+=`<div class="${cls}" data-date="${ds}">${d}</div>`;
+    }
+    html+='</div>';
   }
   grid.innerHTML=html;
 }

@@ -96,6 +96,10 @@
 
   /* PUTT CARD */
   .putt-card{background:var(--white);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--card-shadow);}
+  .iron-yards-row{font-size:0.66rem;color:var(--muted);font-weight:600;margin-top:4px;display:flex;align-items:center;gap:5px;}
+  .iron-yards{width:52px;border:1.5px solid #e4e0d6;background:var(--sand);border-radius:6px;padding:4px 6px;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:800;color:var(--iron);text-align:center;outline:none;-moz-appearance:textfield;}
+  .iron-yards:focus{border-color:var(--iron2);}
+  .iron-yards::-webkit-outer-spin-button,.iron-yards::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
   .putt-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
   .putt-name{font-size:0.86rem;font-weight:800;color:var(--text);}
   .putt-desc{font-size:0.65rem;color:var(--muted);margin-top:1px;}
@@ -666,6 +670,7 @@ let chipSel={c2:null,c5:null,c10:null};
 let pitchSel={p30:null,p50:null,p70:null};
 let puttSel={short:null,lag:null,mid:null};
 let ironSel={};
+let ironYards=JSON.parse(lsGet('golf_iron_yards','{}'));
 let backupDismissed=false;
 
 // local (not UTC) YYYY-MM-DD — avoids the evening timezone rollover bug
@@ -773,13 +778,18 @@ function buildIronCards(){
   wrap.innerHTML=IRON_CLUBS.map(c=>`
     <div class="putt-card">
       <div class="putt-card-header">
-        <div><div class="putt-name">${c.name}</div><div class="putt-desc">Best streak on target</div></div>
+        <div>
+          <div class="putt-name">${c.name}</div>
+          <div class="iron-yards-row">Target <input type="number" inputmode="numeric" class="iron-yards" id="yd-iron-${c.id}" placeholder="—"> yds</div>
+        </div>
         <div class="putt-right"><div class="putt-max">in a row</div><div class="pass-pill" id="pill-iron-${c.id}"></div></div>
       </div>
       <div class="score-row" id="sb-iron-${c.id}"></div>
     </div>`).join('');
   IRON_CLUBS.forEach(c=>{
     buildGroup('sb-iron-'+c.id,8,'iron-theme',v=>{ironSel[c.id]=v;updateIronPill('pill-iron-'+c.id,v);});
+    const yd=document.getElementById('yd-iron-'+c.id);
+    if(ironYards[c.id]!=null)yd.value=ironYards[c.id];
   });
 }
 
@@ -793,12 +803,23 @@ function updateIronPill(id,val){
 }
 
 function logIrons(){
-  const clubs={};
-  IRON_CLUBS.forEach(c=>{if(ironSel[c.id]!=null&&ironSel[c.id]>0)clubs[c.id]=ironSel[c.id];});
+  const clubs={},yards={};
+  IRON_CLUBS.forEach(c=>{
+    const ydEl=document.getElementById('yd-iron-'+c.id);
+    const yd=ydEl&&ydEl.value.trim()!==''?Number(ydEl.value):null;
+    if(yd!=null&&!isNaN(yd)&&yd>0)ironYards[c.id]=yd; // remember for next session
+    if(ironSel[c.id]!=null&&ironSel[c.id]>0){
+      clubs[c.id]=ironSel[c.id];
+      if(yd!=null&&!isNaN(yd)&&yd>0)yards[c.id]=yd;
+    }
+  });
   if(Object.keys(clubs).length===0){toast('iron-toast','Log a score above 0 for at least one club!',true);return;}
   const date=document.getElementById('iron-date').value;
-  data.irons.push({id:Date.now(),date,clubs,mark:marks.iron});
+  const sess={id:Date.now(),date,clubs,mark:marks.iron};
+  if(Object.keys(yards).length)sess.yards=yards;
+  data.irons.push(sess);
   data.irons.sort((a,b)=>a.date.localeCompare(b.date));
+  lsSet('golf_iron_yards',JSON.stringify(ironYards));
   save();ironSel={};
   IRON_CLUBS.forEach(c=>{clearGroup('sb-iron-'+c.id);const e=document.getElementById('pill-iron-'+c.id);e.className='pass-pill';e.textContent='';});
   toast('iron-toast','✅ Irons session saved!');render();
@@ -1214,7 +1235,7 @@ function renderDayModal(){
     html+=dayItem('⛳ Putting',parts+` /${s.balls||5}`);
   });
   data.irons.filter(s=>s.date===modalDate).forEach(s=>{
-    const parts=IRON_CLUBS.filter(c=>s.clubs[c.id]>0).map(c=>`${c.id} ${s.clubs[c.id]}`).join(' · ');
+    const parts=IRON_CLUBS.filter(c=>s.clubs[c.id]>0).map(c=>{const yd=s.yards&&s.yards[c.id];return `${c.id}${yd?' '+yd+'y':''} ${s.clubs[c.id]}`;}).join(' · ');
     html+=dayItem('🎯 Irons',parts+' in a row');
   });
   if(!html)html='<div class="day-empty">Nothing logged this day yet.<br>Add a round below, or log practice from the tabs.</div>';
@@ -1377,7 +1398,7 @@ function renderHistory(){
       scoresHtml=`<div class="hist-section"><span class="hist-section-lbl putt">⛳ Putting</span><div class="hist-scores-grid">${cells}</div></div>`;
     }else{
       const im=s.mark||marks.iron;
-      const cells=IRON_CLUBS.filter(c=>s.clubs[c.id]!=null&&s.clubs[c.id]>0).map(c=>{const v=s.clubs[c.id];return `<div class="hist-score-cell"><div class="hsc-val irv">${v}</div><div class="hsc-lbl">${c.id}</div><div class="hsc-status ${v>=im?'p':'f'}">${v>=im?'✓ Pass':'✗ Fail'}</div></div>`;}).join('');
+      const cells=IRON_CLUBS.filter(c=>s.clubs[c.id]!=null&&s.clubs[c.id]>0).map(c=>{const v=s.clubs[c.id];const yd=s.yards&&s.yards[c.id];return `<div class="hist-score-cell"><div class="hsc-val irv">${v}</div><div class="hsc-lbl">${c.id}${yd?' · '+yd+'y':''}</div><div class="hsc-status ${v>=im?'p':'f'}">${v>=im?'✓ Pass':'✗ Fail'}</div></div>`;}).join('');
       scoresHtml=`<div class="hist-section"><span class="hist-section-lbl iron">🎯 Irons · ${im} in a row</span><div class="hist-scores-grid">${cells}</div></div>`;
     }
     return`<div class="hist-item"><div class="hist-header"><div class="hist-date">${fmtDate(s.date)}</div><button class="hist-del" onclick="delSession('${s.type}',${s.id})">✕</button></div>${scoresHtml}${badge?`<span class="badge">${badge}</span>`:''}</div>`;
